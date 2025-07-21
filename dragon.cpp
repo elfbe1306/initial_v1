@@ -41,6 +41,8 @@ int parseDragonNameString(const string& line, Dragon dragons[]) {
     string name = "";
     int index = 0;
 
+    int specialCharCount = 0;
+
     for(int i = 0; i < line.length(); i++) {
         char c = line[i];
 
@@ -49,6 +51,15 @@ int parseDragonNameString(const string& line, Dragon dragons[]) {
 
             if(!insideQuote) {
                 dragons[index].dragonNames = name;
+
+                for(int j = 0; j < name.length(); j ++) {
+                    if(name[j] == '@' || name[j] == '!' || name[j] == '#' || name[j] == '$' ||
+                        name[j] == '%' || name[j] =='^' || name[j] == '&' || name[j] == '*') {
+                            specialCharCount += 1;
+                        }
+                    if(specialCharCount == 2) return -100 - index;
+                }
+                
                 index += 1;
                 name = "";
             }
@@ -59,6 +70,7 @@ int parseDragonNameString(const string& line, Dragon dragons[]) {
             name += c;
         } 
     }
+
     return index;
 }
 
@@ -66,6 +78,8 @@ int parseDragonTypeString(const string& line, Dragon dragons[]) {
     bool insideQuote = false;
     string nameType = "";
     int index = 0;
+
+    int specialCharCount = 0;
 
     for(int i = 0; i < line.length(); i++) {
         char c = line[i];
@@ -88,8 +102,17 @@ int parseDragonTypeString(const string& line, Dragon dragons[]) {
 
         if(insideQuote && checkValidLetter(c)) {
             nameType += c;
+            if(c == '@' || c == '!' || c == '#' || c == '$' ||
+                c == '%' || c =='^' || c == '&' || c == '*') {
+                specialCharCount++;
+            }
         }
     }
+    
+    if(specialCharCount != 0) {
+        return -500 - specialCharCount;
+    }
+
     return index;
 }
 
@@ -223,13 +246,23 @@ int readFile(const string filename, Dragon dragons[], int dragonDamages[5], int 
     // Tổng số rồng
     N = convertStringToInt(numDragon);
     
-    // Tách các tên rồng
+    // Tách các tên rồng + trả về lỗi: 100 + i, i là index của phần tử thứ 2
     int parseNameCount = parseDragonNameString(DragonNameString, dragons);
-    if(parseNameCount != N) return 5;
+    if(parseNameCount != N) {
+        if(parseNameCount < 0) {
+            return -parseNameCount;
+        }
+        else return 5;
+    }
 
-    // Tách các type rồng
+    // Tách các type rồng + trả về lỗi 500 + k, k là tổng số ký tự đặc biệt
     int parseTypeCount = parseDragonTypeString(DragonTypeString, dragons);
-    if(parseTypeCount != N) return 6;
+    if(parseTypeCount != N) {
+        if(parseTypeCount < 0) {
+            return -parseTypeCount;
+        }
+        else return 6;
+    }
 
     // Tách tính khí của các con rồng
     int parseTemperamentCount = parseDragonTemperamentString(DragonTemperamentString, dragons);
@@ -237,7 +270,7 @@ int readFile(const string filename, Dragon dragons[], int dragonDamages[5], int 
 
     // Tách đạn của các con rồng
     int parseAmmoCount = parseDragonAmmoCountString(DragonAmmoCountString, dragons);
-    if(parseTemperamentCount != N) return 8;
+    if(parseAmmoCount != N) return 8;
 
     // Tách sát thương của các loại rồng
     int parseDamageCount = parseDragonDamageString(DragonDamagesString, dragonDamages);

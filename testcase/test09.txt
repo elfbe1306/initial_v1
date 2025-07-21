@@ -3,4 +3,5 @@
 [9; 8; 7; 7; 6]
 [3; 2; 5; 1; 4]
 [100; 80; 90; 70; 95]
-["Hiccup", "Astrid", "Snotlout", "Fishlegs", "Ruff and Tuff"]
+["Hiccup", "Astrid", "Snotlout", "Fishlegs", "Ruff and Tuff", "Ngoc Nhon"]
+5

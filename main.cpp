@@ -26,21 +26,18 @@ void runSingleTestcase(const string& inputFile, int expectedResult) {
 }
 
 void runTestcase1() {
-    for (int i = 1; i <= 5; ++i) {
-        string inputFile = "testcase/test0" + to_string(i) + ".txt";
-        
-        int expectedResult;
-        switch (i) {
-            case 1: expectedResult = 1; break;
-            case 2: expectedResult = 3; break;
-            case 3: expectedResult = 3; break;
-            case 4: expectedResult = 3; break;
-            case 5: expectedResult = 4; break;
-            default: expectedResult = 1;
-        }
-
-        runSingleTestcase(inputFile, expectedResult);
-    }
+    runSingleTestcase("testcase/test01.txt", 1);
+    runSingleTestcase("testcase/test02.txt", 4);
+    runSingleTestcase("testcase/test03.txt", 5);
+    runSingleTestcase("testcase/test04.txt", 9);
+    runSingleTestcase("testcase/test05.txt", 6);
+    runSingleTestcase("testcase/test06.txt", 7);
+    runSingleTestcase("testcase/test07.txt", 8);
+    runSingleTestcase("testcase/test08.txt", 9);
+    runSingleTestcase("testcase/test09.txt", 10);
+    runSingleTestcase("testcase/test010.txt", 101);
+    runSingleTestcase("testcase/test011.txt", 503);
+    runSingleTestcase("testcase/test012.txt", 103);
 }
 
 void runSpecificTestcase(int index, int expectedResult) {
