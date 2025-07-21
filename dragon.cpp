@@ -22,6 +22,14 @@ bool checkValidLetter(char c) {
         c == '%' || c =='^' || c == '&' || c == '*');
 }
 
+int convertStringToInt(string s) {
+    int value = 0;
+    for(int i = 0; i < s.length(); i++) {
+        value = value * 10 + (s[i] - '0');
+    }
+    return value;
+}
+
 void parseDragonNameString(const string& line, Dragon dragons[]) {
     bool insideQuote = false;
     string name = "";
@@ -77,7 +85,7 @@ void parseDragonTypeString(const string& line, Dragon dragons[]) {
     }
 }
 
-void parseDragonTemperament(const string& line, Dragon dragons[]) {
+void parseDragonTemperamentString(const string& line, Dragon dragons[]) {
     string temperament = "";
     int index = 0;
 
@@ -93,14 +101,63 @@ void parseDragonTemperament(const string& line, Dragon dragons[]) {
             if(temperament[0] == '-') {
                 dragons[index].dragonTemperament = value;
             } else {
-                int value = 0;
-                for(int j = 0; j < temperament.length(); j++) {
-                    value = value * 10 + (temperament[j] - '0');
-                }
+                value = convertStringToInt(temperament);
+                if(value > 10) value = 10;
                 dragons[index].dragonTemperament = value;
             }
             index += 1;
             temperament = "";
+        }
+    }
+}
+
+void parseDragonAmmoCountString(const string& line, Dragon dragons[]) {
+    string AmmoCount = "";
+    int index = 0;
+
+    for(int i = 0; i < line.length(); i++) {
+        char c = line[i];
+
+        if((c >= '0' && c <= '9') || (c == '-')) {
+            AmmoCount += c;
+        }
+
+        if(c == ';' || c == ']') {
+            int value = 0;
+            if(AmmoCount[0] == '-') {
+                dragons[index].ammoCounts = value;
+            } else {
+                value = convertStringToInt(AmmoCount);
+                if(value > 1000) value = 1000;
+                dragons[index].ammoCounts = value;
+            }
+            index += 1;
+            AmmoCount = "";
+        }
+    }
+}
+
+void parseRiderNameString(const string& line, Dragon dragons[]) {
+    bool insideQuote = false;
+    string riderName = "";
+    int index = 0;
+
+    for(int i = 0; i < line.length(); i++) {
+        char c = line[i];
+
+        if(c == '"') {
+            insideQuote = !insideQuote;
+
+            if(!insideQuote) {
+                dragons[index].riderNames = riderName;
+                index += 1;
+                riderName = "";
+            }
+            continue;
+        }
+
+        if(insideQuote && checkValidLetter(c)) {
+            riderName += c;
         }
     }
 }
@@ -123,6 +180,9 @@ int readFile(const string filename, Dragon dragons[], int dragonDamages[5], int 
     getline(ifs, RiderNameString);
     getline(ifs, numDragon);
 
+    // Tổng số rồng
+    N = convertStringToInt(numDragon);
+
     // Tách các tên rồng
     parseDragonNameString(DragonNameString, dragons);
 
@@ -130,16 +190,22 @@ int readFile(const string filename, Dragon dragons[], int dragonDamages[5], int 
     parseDragonTypeString(DragonTypeString, dragons);
 
     // Tách tính khí của các con rồng
-    parseDragonTemperament(DragonTemperamentString, dragons);
+    parseDragonTemperamentString(DragonTemperamentString, dragons);
 
     // Tách đạn của các con rồng
-    
+    parseDragonAmmoCountString(DragonAmmoCountString, dragons);
+
+    // Tách tên của người cưởi rồng
+    parseRiderNameString(RiderNameString, dragons);
 
     for(int i = 0; i < 5; i++) {
-        cout << dragons[i].dragonNames << " " << dragons[i].dragonTypes << " " << dragons[i].dragonTemperament << endl;
+        cout << "Name: " << dragons[i].dragonNames << " " << 
+        "Type: " << dragons[i].dragonTypes << " " <<
+        "Temperatement: " << dragons[i].dragonTemperament << " " <<
+        "Ammo Count: " << dragons[i].ammoCounts << " " <<
+        "Rider: " << dragons[i].riderNames << endl;
     }
-
-
+    cout << "Total: " << N << endl;
 
     // Trả về 1 nếu không có lỗi
     return 1;
