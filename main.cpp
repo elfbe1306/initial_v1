@@ -38,6 +38,10 @@ void runTestcase1() {
     runSingleTestcase("testcase/test010.txt", 101);
     runSingleTestcase("testcase/test011.txt", 503);
     runSingleTestcase("testcase/test012.txt", 103);
+    runSingleTestcase("testcase/test013.txt", 904);
+    runSingleTestcase("testcase/test014.txt", 902);
+    runSingleTestcase("testcase/test015.txt", 1003);
+    runSingleTestcase("testcase/test016.txt", 1002);
 }
 
 void runSpecificTestcase(int index, int expectedResult) {
