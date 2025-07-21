@@ -247,15 +247,15 @@ int readFile(const string filename, Dragon dragons[], int dragonDamages[5], int 
     int parseRiderCount = parseRiderNameString(RiderNameString, dragons);
     if(parseRiderCount != N) return 10;
 
-    for(int i = 0; i < 5; i++) {
-        cout << "Name: " << dragons[i].dragonNames << " " << 
-        "Type: " << dragons[i].dragonTypes << " " << 
-        "Damage: " << dragonDamages[i] << " " <<
-        "Temperatement: " << dragons[i].dragonTemperament << " " <<
-        "Ammo Count: " << dragons[i].ammoCounts << " " <<
-        "Rider: " << dragons[i].riderNames << endl;
-    }
-    cout << "Total: " << N << endl;
+    // for(int i = 0; i < 5; i++) {
+    //     cout << "Name: " << dragons[i].dragonNames << " " << 
+    //     "Type: " << dragons[i].dragonTypes << " " << 
+    //     "Damage: " << dragonDamages[i] << " " <<
+    //     "Temperatement: " << dragons[i].dragonTemperament << " " <<
+    //     "Ammo Count: " << dragons[i].ammoCounts << " " <<
+    //     "Rider: " << dragons[i].riderNames << endl;
+    // }
+    // cout << "Total: " << N << endl;
 
     // Trả về 1 nếu không có lỗi
     return 1;
