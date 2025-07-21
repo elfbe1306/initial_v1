@@ -17,99 +17,131 @@ int N = 0;
 // Task 1
 bool checkValidLetter(char c) {
     return (
-        (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == ' ' || 
+        (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == ' ' || 
         c == '@' || c == '!' || c == '#' || c == '$' ||
         c == '%' || c =='^' || c == '&' || c == '*');
 }
 
-int readFile(const string filename, Dragon dragons[], int dragonDamages[5], int &N)
-{
-    // TODO: Implement this function
-    ifstream ifs(filename);
-
-    string DragonNameString;
-    string DragonTypeString;
-    string DragonTemperamentString;
-    string DragonAmmountCountString;
-    string DragonDamagesString;
-    string RiderNameString;
-    string numDragon;
-
-    getline(ifs, DragonNameString);
-    getline(ifs, DragonTypeString);
-    getline(ifs, DragonTemperamentString);
-    getline(ifs, DragonAmmountCountString);
-    getline(ifs, DragonDamagesString);
-    getline(ifs, RiderNameString);
-    getline(ifs, numDragon);
-
-    bool insideQuotes = false;
+void parseDragonNameString(const string& line, Dragon dragons[]) {
+    bool insideQuote = false;
     string name = "";
     int index = 0;
 
-    // Tách các tên rồng
-    for (int i = 0; i < DragonNameString.length(); i++) {
-        char c = DragonNameString[i];
+    for(int i = 0; i < line.length(); i++) {
+        char c = line[i];
 
-        if (c == '"') {
-            insideQuotes = !insideQuotes;
+        if(c == '"') {
+            insideQuote = !insideQuote;
 
-            if (!insideQuotes) {
+            if(!insideQuote) {
                 dragons[index].dragonNames = name;
                 index += 1;
                 name = "";
             }
-
             continue;
         }
-        if (insideQuotes) {
-            if(checkValidLetter(c)){
-                name += c;
-            }
-        }
+
+        if(insideQuote && checkValidLetter(c)) {
+            name += c;
+        } 
     }
+}
 
-    insideQuotes = false;
-    string typeName = "";
-    index = 0;
+void parseDragonTypeString(const string& line, Dragon dragons[]) {
+    bool insideQuote = false;
+    string nameType = "";
+    int index = 0;
 
-    // Tách các type rồng
-    for(int i = 0; i < DragonTypeString.length(); i++) {
-        char c = DragonTypeString[i];
+    for(int i = 0; i < line.length(); i++) {
+        char c = line[i];
 
         if(c == '"') {
-            insideQuotes = !insideQuotes;
+            insideQuote = !insideQuote;
 
-            if(!insideQuotes) {
-                if(typeName == "Night Furry") dragons[index].dragonTypes = 1;
-                else if(typeName == "Deadly Nadder") dragons[index].dragonTypes = 2;
-                else if(typeName == "Monstrous Nightmare") dragons[index].dragonTypes = 3;
-                else if(typeName == "Gronckle") dragons[index].dragonTypes = 4;
-                else if(typeName == "Hideous Zippleback") dragons[index].dragonTypes = 5;
+            if(!insideQuote) {
+                if(nameType == "Night Furry") dragons[index].dragonTypes = 1;
+                else if(nameType == "Deadly Nadder") dragons[index].dragonTypes = 2;
+                else if(nameType == "Monstrous Nightmare") dragons[index].dragonTypes = 3;
+                else if(nameType == "Gronckle") dragons[index].dragonTypes = 4;
+                else if(nameType == "Hideous Zippleback") dragons[index].dragonTypes = 5;
                 else dragons[index].dragonTypes = 1;
-
                 index += 1;
-                typeName = "";
+                nameType = "";
             }
-
             continue;
         }
 
-        if(insideQuotes) {
-            typeName += c;
+        if(insideQuote && checkValidLetter(c)) {
+            nameType += c;
         }
     }
+}
 
-    for(int i = 0; i < 5; i++) {
-        cout << dragons[i].dragonNames << " " << dragons[i].dragonTypes << endl;
+void parseDragonTemperament(const string& line, Dragon dragons[]) {
+    string temperament = "";
+    int index = 0;
+
+    for(int i = 0; i < line.length(); i++) {
+        char c = line[i];
+
+        if((c >= '0' && c <= '9') || c == '-') {
+            temperament += c;
+        }
+
+        if(c == ';' || c == ']') {
+            int value = 0;
+            if(temperament[0] == '-') {
+                dragons[index].dragonTemperament = value;
+            } else {
+                int value = 0;
+                for(int j = 0; j < temperament.length(); j++) {
+                    value = value * 10 + (temperament[j] - '0');
+                }
+                dragons[index].dragonTemperament = value;
+            }
+            index += 1;
+            temperament = "";
+        }
     }
+}
 
-    if (!ifs.is_open())
-    {
+int readFile(const string filename, Dragon dragons[], int dragonDamages[5], int &N) {
+    // TODO: Implement this function
+    ifstream ifs(filename);
+    if (!ifs.is_open()) {
         return 3; // File not found
     }
 
-    // Dummy return until implemented
+    string DragonNameString, DragonTypeString, DragonTemperamentString, DragonAmmoCountString;
+    string DragonDamagesString, RiderNameString, numDragon;
+
+    getline(ifs, DragonNameString);
+    getline(ifs, DragonTypeString);
+    getline(ifs, DragonTemperamentString);
+    getline(ifs, DragonAmmoCountString);
+    getline(ifs, DragonDamagesString);
+    getline(ifs, RiderNameString);
+    getline(ifs, numDragon);
+
+    // Tách các tên rồng
+    parseDragonNameString(DragonNameString, dragons);
+
+    // Tách các type rồng
+    parseDragonTypeString(DragonTypeString, dragons);
+
+    // Tách tính khí của các con rồng
+    parseDragonTemperament(DragonTemperamentString, dragons);
+
+    // Tách đạn của các con rồng
+    
+
+    for(int i = 0; i < 5; i++) {
+        cout << dragons[i].dragonNames << " " << dragons[i].dragonTypes << " " << dragons[i].dragonTemperament << endl;
+    }
+
+
+
+    // Trả về 1 nếu không có lỗi
     return 1;
 }
 
