@@ -281,7 +281,7 @@ int readFile(const string filename, Dragon dragons[], int dragonDamages[5], int 
 
     // Tách sát thương của các loại rồng
     int parseDamageCount = parseDragonDamageString(DragonDamagesString, dragonDamages);
-    if(parseDamageCount != N) return 9;
+    if(parseDamageCount != 5) return 9;
 
     // Tách tên của người cưởi rồng
     int parseRiderCount = parseRiderNameString(RiderNameString, dragons);
@@ -290,10 +290,10 @@ int readFile(const string filename, Dragon dragons[], int dragonDamages[5], int 
         else return 10;
     }
 
-    // for(int i = 0; i < 5; i++) {
+    // for(int i = 0; i < N; i++) {
     //     cout << "Name: " << dragons[i].dragonNames << " " << 
     //     "Type: " << dragons[i].dragonTypes << " " << 
-    //     "Damage: " << dragonDamages[i] << " " <<
+    //     "Damage: " << dragonDamages[dragons[i].dragonTypes - 1] << " " <<
     //     "Temperatement: " << dragons[i].dragonTemperament << " " <<
     //     "Ammo Count: " << dragons[i].ammoCounts << " " <<
     //     "Rider: " << dragons[i].riderNames << endl;
@@ -308,6 +308,32 @@ int readFile(const string filename, Dragon dragons[], int dragonDamages[5], int 
 string findKthStrongestDragon(Dragon dragons[], int dragonDamages[5], int N, int T)
 {
     // TODO: Implement this function
+    float strongestDamage = 0;
+    int strongestIdx = -1;
+
+    for(int i = 0; i < N; i++ ) {
+        if(dragons[i].dragonTemperament >= T) {
+            int power = 0;
+            if(dragons[i].dragonTypes == 1) {
+                power = (dragons[i].ammoCounts * dragonDamages[0]) + dragons[i].dragonTemperament * 3;
+            } else if(dragons[i].dragonTypes == 2) {
+                power = (dragons[i].ammoCounts * dragonDamages[1] + dragons[i].dragonTemperament * 2);
+            } else if(dragons[i].dragonTypes == 3) {
+                power = (dragons[i].ammoCounts * dragonDamages[2] + dragons[i].dragonTemperament);
+            } else if(dragons[i].dragonTypes == 4) {
+                power = (dragons[i].ammoCounts * dragonDamages[3] + dragons[i].dragonTemperament / 2);
+            } else {
+                power = (dragons[i].ammoCounts * dragonDamages[4] * 0.9 + dragons[i].dragonTemperament * 1.5);
+            }
+            if(strongestDamage < power) {
+                strongestDamage = power;
+                strongestIdx = i;
+            }
+        }
+    }
+    
+    if(strongestIdx != -1) return dragons[strongestIdx].dragonNames;
+
     return "None";
 }
 
