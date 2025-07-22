@@ -338,14 +338,13 @@ string findKthStrongestDragon(Dragon dragons[], int dragonDamages[5], int N, int
 }
 
 // Task 3.1
-void compatibilityCheck(Dragon dragons[], string warriorName, int warriorSkill)
-{
-    // TODO: Implement this function
-}
-
+static bool headerPrinted = false;
 void printCompatibilityTable(string fighterName, string dragonName, float compatibility)
-{
-    cout << "Warrior      Dragon        Compatibility    Review" << endl;
+{   
+    if(!headerPrinted) {
+        cout << "Warrior      Dragon        Compatibility    Review" << endl;
+    }
+    headerPrinted = true;
 
     string result = (compatibility > 4) ? "Compatible" : "Not Compatible";
 
@@ -353,6 +352,17 @@ void printCompatibilityTable(string fighterName, string dragonName, float compat
          << setw(14) << dragonName
          << setw(17) << fixed << setprecision(2) << compatibility
          << result << endl;
+}
+
+void compatibilityCheck(Dragon dragons[], string warriorName, int warriorSkill)
+{
+    // TODO: Implement this function
+    for(int i = 0; i < N; i++) {
+        float compatibility = (10 - abs(dragons[i].dragonTemperament - warriorSkill)) / 2;
+        printCompatibilityTable(warriorName, dragons[i].dragonNames, compatibility);
+    }
+
+    headerPrinted = false;
 }
 
 // Task 3.2

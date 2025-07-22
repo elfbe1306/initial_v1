@@ -39,6 +39,15 @@ void runSingleTestcase42(const string& inputFile, int T, string expectedResult) 
     cout << endl << "---------------------------------------" << endl;
 }
 
+void runSingleTestcase43(const string& inputFile, string warriorName, int warriorSkill) {
+    cout << "Running test case: " << inputFile << endl;
+
+    int read = readFile(inputFile, dragons, dragonDamages, N);
+    compatibilityCheck(dragons, warriorName, warriorSkill);
+
+    cout << endl << "---------------------------------------" << endl;
+}
+
 // Nhiệm vụ 4.1
 void runTestcase1() {
     runSingleTestcase41("testcase/test-41/test001.txt", 1);
@@ -66,6 +75,12 @@ void runTestcase2() {
     runSingleTestcase42("testcase/test-42/test003.txt", 6, "HookAfang");
 }
 
+// Nhiệm vụ 4.3
+void runTestcase3() {
+    runSingleTestcase43("testcase/test-43/test001.txt", "Hiccup", 9);
+    runSingleTestcase43("testcase/test-43/test002.txt", "Snotlout", 6);
+}
+
 // void runSpecificTestcase(int index, int expectedResult) {
 //     string inputFile = "testcase/test0" + to_string(index) + ".txt";
 //     runSingleTestcase(inputFile, expectedResult);
@@ -73,7 +88,8 @@ void runTestcase2() {
 
 int main() {
     // runTestcase1();
-    runTestcase2();
+    // runTestcase2();
+    runTestcase3();
 
     // runSpecificTestcase(1, 1);
 
