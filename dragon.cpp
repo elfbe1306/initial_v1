@@ -41,7 +41,6 @@ int parseDragonNameString(const string& line, Dragon dragons[]) {
     string name = "";
     int index = 0;
 
-    int specialCharCount = 0;
     int spaceErrorCount = 0;
 
     for(int i = 0; i < line.length(); i++) {
@@ -54,9 +53,8 @@ int parseDragonNameString(const string& line, Dragon dragons[]) {
                 for(int j = 0; j < name.length(); j ++) {
                     if(name[j] == '@' || name[j] == '!' || name[j] == '#' || name[j] == '$' ||
                         name[j] == '%' || name[j] =='^' || name[j] == '&' || name[j] == '*') {
-                            specialCharCount += 1;
-                        }
-                    if(specialCharCount == 2) return -100 - index;
+                            return -100 - index;
+                    }
                 }
 
                 for (int j = 1; j < name.length(); j++) {
