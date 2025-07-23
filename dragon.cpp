@@ -434,6 +434,15 @@ void computeChallengeTime(string warriors[][3], int map[10][10])
 void fighterDamage(Dragon dragons[], string warriors[][3], int teamsDamage[])
 {
     // TODO: Implement this function
+    for(int i = 0; i < N; i++) {
+        for(int j = 0; j < N; j++) {
+            if(warriors[i][0] == dragons[j].riderNames) {
+                int damage = (dragonDamages[dragons[j-1].dragonTypes] * dragons[j].ammoCounts) + (stoi(warriors[i][1]) * 5);
+                teamsDamage[i] = damage;
+                cout << dragons[j].riderNames <<"-"<< dragons[j].dragonNames << ": damage = " << damage << endl;
+            }
+        }
+    }
 }
 
 // Task 5.2
