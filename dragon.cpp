@@ -36,10 +36,38 @@ int convertStringToInt(string s) {
     return value;
 }
 
-int parseDragonNameString(const string& line, Dragon dragons[]) {
+int specialCharCountFun(const string& line) {
+    bool insideQuote = false;
+    string nameType = "";
+    int specialCharCount = 0;
+
+    for(int i = 0; i < line.length(); i++) {
+        char c = line[i];
+
+        if(c == '"') {
+            insideQuote = !insideQuote;
+
+            if(!insideQuote) {
+                nameType = "";
+            }
+            continue;
+        }
+
+        if(insideQuote && checkValidLetter(c)) {
+            nameType += c;
+            if(c == '@' || c == '!' || c == '#' || c == '$' ||
+                c == '%' || c =='^' || c == '&' || c == '*') {
+                specialCharCount++;
+            }
+        }
+    }
+
+    return specialCharCount;
+}
+
+int spaceCountErrorFun(const string& line) {
     bool insideQuote = false;
     string name = "";
-    int index = 0;
 
     int spaceErrorCount = 0;
 
@@ -50,20 +78,36 @@ int parseDragonNameString(const string& line, Dragon dragons[]) {
             insideQuote = !insideQuote;
 
             if(!insideQuote) {
-                for(int j = 0; j < name.length(); j ++) {
-                    if(name[j] == '@' || name[j] == '!' || name[j] == '#' || name[j] == '$' ||
-                        name[j] == '%' || name[j] =='^' || name[j] == '&' || name[j] == '*') {
-                            return -100 - index;
-                    }
-                }
-
                 for (int j = 1; j < name.length(); j++) {
                     if (name[j] == ' ' && name[j - 1] == ' ') {
                         spaceErrorCount++;
                         break;
                     }
                 }
+                name = "";
+            }
+            continue;
+        }
 
+        if(insideQuote && checkValidLetter(c)) {
+            name += c;
+        }
+    }
+    return spaceErrorCount;
+}
+
+int parseDragonNameString(const string& line, Dragon dragons[]) {
+    bool insideQuote = false;
+    string name = "";
+    int index = 0;
+
+    for(int i = 0; i < line.length(); i++) {
+        char c = line[i];
+
+        if(c == '"') {
+            insideQuote = !insideQuote;
+
+            if(!insideQuote) {
                 dragons[index].dragonNames = name;
                 index += 1;
                 name = "";
@@ -75,9 +119,6 @@ int parseDragonNameString(const string& line, Dragon dragons[]) {
             name += c;
         } 
     }
-
-    if(spaceErrorCount != 0) return -1000 - spaceErrorCount;
-
     return index;
 }
 
@@ -85,8 +126,6 @@ int parseDragonTypeString(const string& line, Dragon dragons[]) {
     bool insideQuote = false;
     string nameType = "";
     int index = 0;
-
-    int specialCharCount = 0;
 
     for(int i = 0; i < line.length(); i++) {
         char c = line[i];
@@ -109,15 +148,7 @@ int parseDragonTypeString(const string& line, Dragon dragons[]) {
 
         if(insideQuote && checkValidLetter(c)) {
             nameType += c;
-            if(c == '@' || c == '!' || c == '#' || c == '$' ||
-                c == '%' || c =='^' || c == '&' || c == '*') {
-                specialCharCount++;
-            }
         }
-    }
-    
-    if(specialCharCount != 0) {
-        return -500 - specialCharCount;
     }
 
     return index;
@@ -215,10 +246,6 @@ int parseRiderNameString(const string& line, Dragon dragons[]) {
             insideQuote = !insideQuote;
 
             if(!insideQuote) {
-                for(int j = 1; j < riderName.length(); j++) {
-                    if(riderName[j] == ' ' && riderName[j - 1] == ' ') return -900 - index;
-                }
-
                 dragons[index].riderNames = riderName;
                 index += 1;
                 riderName = "";
@@ -257,19 +284,13 @@ int readFile(const string filename, Dragon dragons[], int dragonDamages[5], int 
     // Tổng số rồng
     N = convertStringToInt(numDragon);
     
-    // Tách các tên rồng + trả về lỗi: 100 + i, i là index của phần tử thứ 2
+    // Tách các tên rồng
     int parseNameCount = parseDragonNameString(DragonNameString, dragons);
-    if(parseNameCount != N) {
-        if(parseNameCount < 0) return -parseNameCount;
-        else return 5;
-    }
+    if(parseNameCount != N) return 5;
 
-    // Tách các type rồng + trả về lỗi 500 + k, k là tổng số ký tự đặc biệt
+    // Tách các type rồng
     int parseTypeCount = parseDragonTypeString(DragonTypeString, dragons);
-    if(parseTypeCount != N) {
-        if(parseTypeCount < 0) return -parseTypeCount;
-        else return 6;
-    }
+    if(parseTypeCount != N) return 6;
 
     // Tách tính khí của các con rồng
     int parseTemperamentCount = parseDragonTemperamentString(DragonTemperamentString, dragons);
@@ -285,20 +306,44 @@ int readFile(const string filename, Dragon dragons[], int dragonDamages[5], int 
 
     // Tách tên của người cưởi rồng
     int parseRiderCount = parseRiderNameString(RiderNameString, dragons);
-    if(parseRiderCount != N) {
-        if(parseRiderCount < 0) return - parseRiderCount;
-        else return 10;
+    if(parseRiderCount != N) return 10;
+
+    for(int i = 0; i < N; i++) {
+        cout << "Name: " << dragons[i].dragonNames << " " << 
+        "Type: " << dragons[i].dragonTypes << " " << 
+        "Damage: " << dragonDamages[dragons[i].dragonTypes - 1] << " " <<
+        "Temperatement: " << dragons[i].dragonTemperament << " " <<
+        "Ammo Count: " << dragons[i].ammoCounts << " " <<
+        "Rider: " << dragons[i].riderNames << endl;
+    }
+    cout << "Total: " << N << endl;
+
+    // 100 + i
+    for(int i = 0; i < N; i++) {
+        for(int j = 0; j < dragons[i].dragonNames.length(); j++) {
+            string name = dragons[i].dragonNames;
+            if(name[j] == '@' || name[j] == '!' || name[j] == '#' || name[j] == '$' ||
+                name[j] == '%' || name[j] =='^' || name[j] == '&' || name[j] == '*') {
+                    return 100 + i;
+            }
+        }
     }
 
-    // for(int i = 0; i < N; i++) {
-    //     cout << "Name: " << dragons[i].dragonNames << " " << 
-    //     "Type: " << dragons[i].dragonTypes << " " << 
-    //     "Damage: " << dragonDamages[dragons[i].dragonTypes - 1] << " " <<
-    //     "Temperatement: " << dragons[i].dragonTemperament << " " <<
-    //     "Ammo Count: " << dragons[i].ammoCounts << " " <<
-    //     "Rider: " << dragons[i].riderNames << endl;
-    // }
-    // cout << "Total: " << N << endl;
+    // 500 + k
+    int specialCharCount = specialCharCountFun(DragonTypeString);
+    if(specialCharCount != 0) return 500 + specialCharCount;
+
+    // 900 + i
+    for(int i = 0; i < N; i++) {
+        for(int j = 1; j < dragons[i].riderNames.length(); j++) {
+            string riderName = dragons[i].riderNames;
+            if(riderName[j] == ' ' && riderName[j - 1] == ' ') return 900 + i;
+        }
+    }
+
+    // 1000 + k
+    int spaceCountError = spaceCountErrorFun(DragonNameString);
+    if(spaceCountError != 0) return 1000 + spaceCountError;
 
     // Trả về 1 nếu không có lỗi
     return 1;

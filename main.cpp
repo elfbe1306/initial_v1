@@ -27,21 +27,21 @@ void runSingleTestcase1(const string& inputFile, int expectedResult) {
 
 void runTestcase1() {
     runSingleTestcase1("testcase/test-41/test001.txt", 1);
-    runSingleTestcase1("testcase/test-41/test002.txt", 4);
-    runSingleTestcase1("testcase/test-41/test003.txt", 5);
-    runSingleTestcase1("testcase/test-41/test004.txt", 9);
-    runSingleTestcase1("testcase/test-41/test005.txt", 6);
-    runSingleTestcase1("testcase/test-41/test006.txt", 7);
-    runSingleTestcase1("testcase/test-41/test007.txt", 8);
-    runSingleTestcase1("testcase/test-41/test008.txt", 9);
-    runSingleTestcase1("testcase/test-41/test009.txt", 10);
-    runSingleTestcase1("testcase/test-41/test010.txt", 101);
-    runSingleTestcase1("testcase/test-41/test011.txt", 503);
-    runSingleTestcase1("testcase/test-41/test012.txt", 103);
-    runSingleTestcase1("testcase/test-41/test013.txt", 904);
-    runSingleTestcase1("testcase/test-41/test014.txt", 902);
-    runSingleTestcase1("testcase/test-41/test015.txt", 1003);
-    runSingleTestcase1("testcase/test-41/test016.txt", 1002);
+    // runSingleTestcase1("testcase/test-41/test002.txt", 4);
+    // runSingleTestcase1("testcase/test-41/test003.txt", 5);
+    // runSingleTestcase1("testcase/test-41/test004.txt", 9);
+    // runSingleTestcase1("testcase/test-41/test005.txt", 6);
+    // runSingleTestcase1("testcase/test-41/test006.txt", 7);
+    // runSingleTestcase1("testcase/test-41/test007.txt", 8);
+    // runSingleTestcase1("testcase/test-41/test008.txt", 9);
+    // runSingleTestcase1("testcase/test-41/test009.txt", 10);
+    // runSingleTestcase1("testcase/test-41/test010.txt", 101);
+    // runSingleTestcase1("testcase/test-41/test011.txt", 503);
+    // runSingleTestcase1("testcase/test-41/test012.txt", 103);
+    // runSingleTestcase1("testcase/test-41/test013.txt", 904);
+    // runSingleTestcase1("testcase/test-41/test014.txt", 902);
+    // runSingleTestcase1("testcase/test-41/test015.txt", 1003);
+    // runSingleTestcase1("testcase/test-41/test016.txt", 1002);
 }
 
 // Nhiệm vụ 2
@@ -207,7 +207,7 @@ void runTestcase51() {
 
 int main() {
     // nhiệm vụ 1
-    // runTestcase1();
+    runTestcase1();
 
     // nhiệm vụ 2
     // runTestcase2();
@@ -222,7 +222,7 @@ int main() {
     // runTestcase4();
 
     // Nhiệm vụ 5.1
-    runTestcase51();
+    // runTestcase51();
 
     // runSpecificTestcase(1, 1);
 
