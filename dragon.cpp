@@ -358,7 +358,7 @@ void compatibilityCheck(Dragon dragons[], string warriorName, int warriorSkill)
 {
     // TODO: Implement this function
     for(int i = 0; i < N; i++) {
-        float compatibility = (10 - abs(dragons[i].dragonTemperament - warriorSkill)) / 2;
+        float compatibility = (10 - abs(dragons[i].dragonTemperament - warriorSkill)) / 2.0;
         printCompatibilityTable(warriorName, dragons[i].dragonNames, compatibility);
     }
 
@@ -369,6 +369,30 @@ void compatibilityCheck(Dragon dragons[], string warriorName, int warriorSkill)
 void buddyMatching(Dragon dragons[], string warriors[][3])
 {
     // TODO: Implement this function
+    bool dragonTaken[100] = {false};
+
+    for(int i = 0; i < N; i++) {
+        string warriorName = warriors[i][0];
+        int warriorSkill = stoi(warriors[i][1]);
+
+        int bestDragonIndex = -1;
+        float bestCompatibility = -1;
+        for (int j = 0; j < N; j++) {
+            if (dragonTaken[j]) continue;
+
+            float compatibility = (10 - abs(dragons[j].dragonTemperament - warriorSkill)) / 2.0;
+
+            if (compatibility > bestCompatibility) {
+                bestCompatibility = compatibility;
+                bestDragonIndex = j;
+            }
+        }
+
+        if (bestDragonIndex != -1) {
+            dragonTaken[bestDragonIndex] = true;
+            printCompatibilityTable(warriorName, dragons[bestDragonIndex].dragonNames, bestCompatibility);
+        }
+    }
 }
 
 // Task 4

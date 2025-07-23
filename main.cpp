@@ -39,11 +39,20 @@ void runSingleTestcase42(const string& inputFile, int T, string expectedResult) 
     cout << endl << "---------------------------------------" << endl;
 }
 
-void runSingleTestcase43(const string& inputFile, string warriorName, int warriorSkill) {
+void runSingleTestcase431(const string& inputFile, string warriorName, int warriorSkill) {
     cout << "Running test case: " << inputFile << endl;
 
     int read = readFile(inputFile, dragons, dragonDamages, N);
     compatibilityCheck(dragons, warriorName, warriorSkill);
+
+    cout << endl << "---------------------------------------" << endl;
+}
+
+void runSingleTestcase432(const string& inputFile, Dragon dragons[], string warrior[][3]) {
+    cout << "Running test case: " << inputFile << endl;
+
+    int read = readFile(inputFile, dragons, dragonDamages, N);
+    buddyMatching(dragons, warrior);
 
     cout << endl << "---------------------------------------" << endl;
 }
@@ -75,10 +84,36 @@ void runTestcase2() {
     runSingleTestcase42("testcase/test-42/test003.txt", 6, "HookAfang");
 }
 
-// Nhiệm vụ 4.3
+// Nhiệm vụ 4.3.1
 void runTestcase3() {
-    runSingleTestcase43("testcase/test-43/test001.txt", "Hiccup", 9);
-    runSingleTestcase43("testcase/test-43/test002.txt", "Snotlout", 6);
+    runSingleTestcase431("testcase/test-43/test001.txt", "Hiccup", 9);
+    runSingleTestcase431("testcase/test-43/test002.txt", "Snotlout", 6);
+}
+
+// Nhiệm vụ 4.3.2
+void runTestcase4() {
+    const int W = 5; // or however many warriors you have
+    string warrior[W][3];
+    warrior[0][0] = "Hiccup";
+    warrior[0][1] = "9";         
+    warrior[0][2] = "0";
+
+    warrior[1][0] = "Astrid";
+    warrior[1][1] = "8";
+    warrior[1][2] = "1";
+
+    warrior[2][0] = "Snotlout";
+    warrior[2][1] = "7";         
+    warrior[2][2] = "2";
+
+    warrior[3][0] = "Fishlegs";
+    warrior[3][1] = "4";
+    warrior[3][2] = "3";
+
+    warrior[4][0] = "Ruff and Tuff";
+    warrior[4][1] = "6";         
+    warrior[4][2] = "4";
+    runSingleTestcase432("testcase/test-44/test001.txt", dragons, warrior);
 }
 
 // void runSpecificTestcase(int index, int expectedResult) {
@@ -89,7 +124,8 @@ void runTestcase3() {
 int main() {
     // runTestcase1();
     // runTestcase2();
-    runTestcase3();
+    // runTestcase3();
+    // runTestcase4();
 
     // runSpecificTestcase(1, 1);
 
