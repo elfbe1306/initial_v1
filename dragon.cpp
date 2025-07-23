@@ -396,9 +396,38 @@ void buddyMatching(Dragon dragons[], string warriors[][3])
 }
 
 // Task 4
-void computeChallengeTime(string warriors[][3], string map[10][10])
+void computeChallengeTime(string warriors[][3], int map[10][10])
 {
     // TODO: Implement this function
+    int warriorTime[5] = {0};
+
+    for(int i = 0; i < N; i++) {
+        int warriorID = stoi(warriors[i][2]);
+
+        for(int row = 0; row < 10; row++) {
+            for(int col = 0; col < 10; col++) {
+                int tileID = (row + col) % 5;
+                int itemCode = map[row][col];
+
+                if(tileID == warriorID) {
+                    warriorTime[i] += 5;
+                    continue;
+                }
+                    
+                if(itemCode == warriorID) {
+                    int goTime = (row + col * 2) * 5;
+                    int returnTime = abs((row + col * 2) - 1) * 5;
+                    warriorTime[i] += goTime + returnTime;
+                } else {
+                    warriorTime[i] += 5;
+                }
+            }
+        }
+    }
+   
+    for(int i = 0; i < N; i++) {
+        cout << warriors[i][0] << ": " << warriorTime[i] << endl;
+    } 
 }
 
 // Task 5.1

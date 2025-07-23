@@ -57,6 +57,15 @@ void runSingleTestcase432(const string& inputFile, Dragon dragons[], string warr
     cout << endl << "---------------------------------------" << endl;
 }
 
+void runSingleTestcase45(const string& inputFile, string warrior[][3], int map[10][10]) {
+    cout << "Running test case: " << inputFile << endl;
+
+    int read = readFile(inputFile, dragons, dragonDamages, N);
+    computeChallengeTime(warrior, map);
+
+    cout << endl << "---------------------------------------" << endl;
+}
+
 // Nhiệm vụ 4.1
 void runTestcase1() {
     runSingleTestcase41("testcase/test-41/test001.txt", 1);
@@ -116,6 +125,44 @@ void runTestcase4() {
     runSingleTestcase432("testcase/test-44/test001.txt", dragons, warrior);
 }
 
+void runTestcase5() {
+    int map[10][10] = {
+        {0, 1, 2, 3, 4, 5, 0, 1, 2, 3},
+        {4, 5, 0, 1, 2, 3, 4, 5, 0, 1},
+        {2, 3, 4, 5, 0, 1, 2, 3, 4, 5},
+        {0, 1, 2, 3, 4, 5, 0, 1, 2, 3},
+        {4, 5, 0, 1, 2, 3, 4, 5, 0, 1},
+        {2, 3, 4, 5, 0, 1, 2, 3, 4, 5},
+        {0, 1, 2, 3, 4, 5, 0, 1, 2, 3},
+        {4, 5, 0, 1, 2, 3, 4, 5, 0, 1},
+        {2, 3, 4, 5, 0, 1, 2, 3, 4, 5},
+        {0, 1, 2, 3, 4, 5, 0, 1, 2, 3},
+    };
+
+    const int W = 5;
+    string warrior[W][3];
+    warrior[0][0] = "Hiccup";
+    warrior[0][1] = "9";         
+    warrior[0][2] = "0";
+
+    warrior[1][0] = "Astrid";
+    warrior[1][1] = "8";
+    warrior[1][2] = "1";
+
+    warrior[2][0] = "Snotlout";
+    warrior[2][1] = "7";         
+    warrior[2][2] = "2";
+
+    warrior[3][0] = "Fishlegs";
+    warrior[3][1] = "4";
+    warrior[3][2] = "3";
+
+    warrior[4][0] = "Ruff and Tuff";
+    warrior[4][1] = "6";         
+    warrior[4][2] = "4";
+    runSingleTestcase45("testcase/test-45/test001.txt", warrior, map);
+}
+
 // void runSpecificTestcase(int index, int expectedResult) {
 //     string inputFile = "testcase/test0" + to_string(index) + ".txt";
 //     runSingleTestcase(inputFile, expectedResult);
@@ -126,6 +173,7 @@ int main() {
     // runTestcase2();
     // runTestcase3();
     // runTestcase4();
+    runTestcase5();
 
     // runSpecificTestcase(1, 1);
 
