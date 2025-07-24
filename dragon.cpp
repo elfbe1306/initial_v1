@@ -470,9 +470,24 @@ void computeChallengeTime(string warriors[][3], int map[10][10])
         }
     }
    
-    for(int i = 0; i < N; i++) {
-        cout << warriors[i][0] << ": " << warriorTime[i] << endl;
-    } 
+    for (int i = 0; i < N - 1; i++) {
+        for (int j = i + 1; j < N; j++) {
+            if (warriorTime[i] > warriorTime[j]) {
+                int tempTime = warriorTime[i];
+                warriorTime[i] = warriorTime[j];
+                warriorTime[j] = tempTime;
+
+                string tempName = warriors[i][0];
+                warriors[i][0] = warriors[j][0];
+                warriors[j][0] = tempName;
+            }
+        }
+    }
+
+    cout << "Warrior      Total Time (secs)" << endl;
+    for(int i = 0; i < 4; i++) {
+        cout << left << setw(13) << warriors[i][0] << setw(14) << warriorTime[i] << endl;
+    }
 }
 
 // Task 5.1
