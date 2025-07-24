@@ -280,6 +280,10 @@ int readFile(const string filename, Dragon dragons[], int dragonDamages[5], int 
         !getline(ifs, DragonTemperamentString) || !getline(ifs, DragonAmmoCountString) ||
         !getline(ifs, DragonDamagesString) || !getline(ifs, RiderNameString) ||
         !getline(ifs, numDragon)) return 4;
+    
+    if(DragonNameString.empty() || DragonTypeString.empty() || DragonTemperamentString.empty() || 
+        DragonAmmoCountString.empty() || DragonDamagesString.empty() ||
+        RiderNameString.empty() || numDragon.empty()) return 4;
 
     // Tổng số rồng
     N = convertStringToInt(numDragon);
@@ -508,9 +512,54 @@ void fighterDamage(Dragon dragons[], string warriors[][3], int teamsDamage[])
 // Task 5.2
 void findHeritageLocation(int  map[10][10], int &heritageX, int &heritageY) {
     // TODO: Implement this function
+    for(int i  = 0; i < 10; i++) {
+        int minRow = map[i][0];
+        int colIdx = 0;
+
+        for(int j = 1; j < 10; j++) {
+            if(map[i][j] < minRow) {
+                minRow = map[i][j];
+                colIdx = j;
+            } 
+        }
+
+        bool isSaddlePoint = true;
+        for(int k = 0; k < 10; k++) {
+            if(map[k][colIdx] > minRow) {
+                isSaddlePoint = false;
+                break;
+            }
+        }
+
+        if(isSaddlePoint) {
+            heritageX = i;
+            heritageY = colIdx;
+            break;
+        }
+    }
 }
 void findKeyLocation(int map[10][10], int &keyX, int &keyY) {
     // TODO: Implement this function
+    int maxSum = -1;
+    int x = 1;
+    int y = 1;
+    for(int row = 0; row <= 7; row++) {
+        for(int col = 0; col <= 7 ; col++) {
+            int total = 0;
+            for(int i = row; i < row + 3; i++) {
+                for(int j = col; j < col + 3; j++) {
+                    total += map[i][j];
+                }
+            }
+            if(total > maxSum) {
+                maxSum = total;
+                x = row + 1;
+                y = col + 1;
+            }
+        }
+    }
+    keyX = x;
+    keyY = y;
 }
 void totalTime(int map[10][10], int warriorDamage, int HP) {
     // TODO: Implement this function

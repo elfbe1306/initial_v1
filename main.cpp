@@ -203,6 +203,104 @@ void runTestcase51() {
     runSingleTestcase51("testcase/test-46/test001.txt", dragons, warrior);
 }
 
+//Nhiệm vụ 5.2.1
+void runSingleTestcase521(const string& inputFile, Dragon dragons[], int map[10][10], int expectX, int expectY) {
+    cout << "Running test case: " << inputFile << endl;
+    int heritageX;
+    int heritageY;
+
+    int read = readFile(inputFile, dragons, dragonDamages, N);
+    findHeritageLocation(map, heritageX, heritageY);
+
+    cout << "X: " << heritageX << " Y: " << heritageY << endl;
+    if(heritageX == expectX && heritageY == expectY) {
+        cout << "✅ Passed";
+    } else {
+        cout << " ❌ Failed (Expected: " << "X: " << expectX <<" Y: " << expectY << ")";
+    }
+
+    cout << endl << "---------------------------------------" << endl;
+}
+
+void runTestcase521() {
+    int map1[10][10] = {
+        {3,  8,  4,  6,  7,  1,  2,  5,  9, 10},
+        {6,  7,  5,  3,  4,  2,  9,  8,  1, 11},
+        {9,  6,  3,  5,  2, 10, 7,  4,  8, 12},
+        {8,  5,  6,  7,  3, 11, 10, 9, 2, 13},
+        {7,  4,  9,  8,  1, 12, 11, 10, 3, 14},
+        {51, 52,  53,  54,  50, 55, 56, 57, 58, 59},
+        {11, 2,  1, 10, 6, 14, 13, 12, 5, 16},
+        {12, 1, 10, 11, 7, 15, 14, 13, 6, 17},
+        {13, 0, 11, 12, 8, 16, 15, 14, 7, 18},
+        {14, 9, 12, 13, 9, 17, 16, 15, 8, 19}
+    };
+    runSingleTestcase521("testcase/test-47/test001.txt", dragons, map1, 5, 4);
+
+    int map2[10][10] = {
+        {13,  18,  14,  16,  15,  14,  13,  12, 11, 10},
+        {6,  7,  5,  3,  4,  2,  9,  8,  1, 1},
+        {9,  6,  3,  5,  2, 10, 7,  4,  8, 2},
+        {8,  5,  6,  7,  3, 11, 10, 9, 2, 3},
+        {7,  4,  9,  8,  1, 12, 11, 10, 3, 4},
+        {4, 5,  6,  7,  8, 9, 10, 11, 12, 3},
+        {11, 2,  1, 10, 6, 14, 13, 12, 5, 6},
+        {12, 1, 10, 11, 7, 15, 14, 13, 6, 7},
+        {13, 0, 11, 12, 8, 16, 15, 14, 7, 8},
+        {14, 9, 12, 13, 9, 17, 16, 15, 8, 9}
+    };
+    runSingleTestcase521("testcase/test-47/test001.txt", dragons, map2, 0, 9);
+}
+
+// Nhiệm vụ 5.2.2
+void runSingleTestcase522(const string& inputFile, Dragon dragons[], int map[10][10], int expectX, int expectY) {
+    cout << "Running test case: " << inputFile << endl;
+    int keyX;
+    int keyY;
+
+    int read = readFile(inputFile, dragons, dragonDamages, N);
+    findKeyLocation(map, keyX, keyY);
+
+    cout << "X: " << keyX << " Y: " << keyY << endl;
+    if(keyX == expectX && keyY == expectY) {
+        cout << "✅ Passed";
+    } else {
+        cout << " ❌ Failed (Expected: " << "X: " << expectX <<" Y: " << expectY << ")";
+    }
+
+    cout << endl << "---------------------------------------" << endl;
+}
+
+void runTestcase522() {
+    int map1[10][10] = {
+        {3,  8,  4,  6,  7,  1,  2,  5,  9, 10},
+        {6,  7,  5,  3,  4,  2,  9,  8,  1, 11},
+        {9,  6,  3,  5,  2, 10, 7,  4,  8, 12},
+        {8,  5,  6,  7,  3, 11, 10, 9, 2, 13},
+        {7,  4,  9,  8,  1, 12, 11, 10, 3, 14},
+        {51, 52,  53,  54,  50, 55, 56, 57, 58, 59},
+        {11, 2,  1, 10, 6, 14, 13, 12, 5, 16},
+        {12, 1, 10, 11, 7, 15, 14, 13, 6, 17},
+        {13, 0, 11, 12, 8, 16, 15, 14, 7, 18},
+        {14, 9, 12, 13, 9, 17, 16, 15, 8, 19}
+    };
+    runSingleTestcase522("testcase/test-48/test001.txt", dragons, map1, 6, 6);
+
+    int map2[10][10] = {
+        {13, 18,  14, 16, 15, 14, 13, 12, 11, 10},
+        {6,  7,  5,  3,  4,  2,  9,  8,  1, 1},
+        {9,  6,  3,  5,  2, 10, 7,  4,  8, 2},
+        {8,  5,  6,  7,  3, 11, 10, 9, 2, 3},
+        {7,  4,  9,  8,  1, 12, 11, 10, 3, 4},
+        {4, 5,  6,  7,  8, 9, 10, 11, 12, 3},
+        {11, 2,  1, 10, 6, 14, 13, 12, 5, 6},
+        {12, 1, 10, 11, 7, 50, 50, 50, 6, 7},
+        {13, 0, 11, 12, 8, 50, 15, 50, 7, 8},
+        {14, 9, 12, 13, 9, 50, 50, 50, 8, 9}
+    };
+    runSingleTestcase522("testcase/test-48/test001.txt", dragons, map2, 8, 6);
+}
+
 // void runSpecificTestcase(int index, int expectedResult) {
 //     string inputFile = "testcase/test0" + to_string(index) + ".txt";
 //     runSingleTestcase(inputFile, expectedResult);
@@ -222,10 +320,16 @@ int main() {
     // runTestcase32();
 
     // Nhiệm vụ 4
-    runTestcase4();
+    // runTestcase4();
 
     // Nhiệm vụ 5.1
     // runTestcase51();
+
+    // Nhiệm vụ 5.2.1
+    // runTestcase521();
+
+    // Nhiệm vụ 5.2.2
+    runTestcase522();
 
     // runSpecificTestcase(1, 1);
 
