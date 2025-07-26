@@ -361,7 +361,7 @@ string findKthStrongestDragon(Dragon dragons[], int dragonDamages[5], int N, int
 
     for(int i = 0; i < N; i++ ) {
         if(dragons[i].dragonTemperament >= T) {
-            int power = 0;
+            float power = 0;
             if(dragons[i].dragonTypes == 1) {
                 power = (dragons[i].ammoCounts * dragonDamages[0]) + dragons[i].dragonTemperament * 3;
             } else if(dragons[i].dragonTypes == 2) {
