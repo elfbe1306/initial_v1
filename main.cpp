@@ -40,9 +40,10 @@ void runTestcase1() {
     runSingleTestcase1("testcase/test-41/test012.txt", 103);
     runSingleTestcase1("testcase/test-41/test013.txt", 904);
     runSingleTestcase1("testcase/test-41/test014.txt", 902);
-    runSingleTestcase1("testcase/test-41/test015.txt", 1003);
+    runSingleTestcase1("testcase/test-41/test015.txt", 1004);
     runSingleTestcase1("testcase/test-41/test016.txt", 1002);
     runSingleTestcase1("testcase/test-41/test017.txt", 102);
+    runSingleTestcase1("testcase/test-41/test018.txt", 1003);
 }
 
 // Nhiệm vụ 2
@@ -308,7 +309,7 @@ void runTestcase522() {
 
 int main() {
     // nhiệm vụ 1
-    // runTestcase1();
+    runTestcase1();
 
     // nhiệm vụ 2
     // runTestcase2();
@@ -329,7 +330,7 @@ int main() {
     // runTestcase521();
 
     // Nhiệm vụ 5.2.2
-    runTestcase522();
+    // runTestcase522();
 
     // runSpecificTestcase(1, 1);
 

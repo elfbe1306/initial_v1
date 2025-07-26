@@ -81,7 +81,6 @@ int spaceCountErrorFun(const string& line) {
                 for (int j = 1; j < name.length(); j++) {
                     if (name[j] == ' ' && name[j - 1] == ' ') {
                         spaceErrorCount++;
-                        break;
                     }
                 }
                 name = "";
@@ -488,9 +487,9 @@ void computeChallengeTime(string warriors[][3], int map[10][10])
         }
     }
 
-    cout << "Warrior      Total Time (secs)" << endl;
+    cout << left << setw(15) << "Warrior" << "Total time (secs)" << endl;
     for(int i = 0; i < 4; i++) {
-        cout << left << setw(13) << warriors[i][0] << setw(14) << warriorTime[i] << endl;
+        cout << left << setw(15) << warriors[i][0] << warriorTime[i] << endl;
     }
 }
 
@@ -563,6 +562,7 @@ void findKeyLocation(int map[10][10], int &keyX, int &keyY) {
 }
 void totalTime(int map[10][10], int warriorDamage, int HP) {
     // TODO: Implement this function
+    
 }
 
 ////////////////////////////////////////////////
