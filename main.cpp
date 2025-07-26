@@ -96,28 +96,32 @@ void runSingleTestcase32(const string& inputFile, Dragon dragons[], string warri
 }
 
 void runTestcase32() {
-    const int W = 5; // or however many warriors you have
-    string warrior[W][3];
-    warrior[0][0] = "Hiccup";
-    warrior[0][1] = "9";         
-    warrior[0][2] = "0";
+    const int W1 = 5; // or however many warriors you have
+    string warrior1[W1][3];
+    warrior1[0][0] = "Hiccup"; warrior1[0][1] = "9"; warrior1[0][2] = "0";
+    warrior1[1][0] = "Astrid"; warrior1[1][1] = "8"; warrior1[1][2] = "1";
+    warrior1[2][0] = "Snotlout"; warrior1[2][1] = "7"; warrior1[2][2] = "2";
+    warrior1[3][0] = "Fishlegs"; warrior1[3][1] = "4"; warrior1[3][2] = "3";
+    warrior1[4][0] = "Ruff and Tuff"; warrior1[4][1] = "6"; warrior1[4][2] = "4";
+    runSingleTestcase32("testcase/test-44/test001.txt", dragons, warrior1);
 
-    warrior[1][0] = "Astrid";
-    warrior[1][1] = "8";
-    warrior[1][2] = "1";
+    const int W2 = 5; // or however many warriors you have
+    string warrior2[W2][3];
+    warrior2[0][0] = "Hiccup"; warrior2[0][1] = "9"; warrior2[0][2] = "0";
+    warrior2[1][0] = "Astrid"; warrior2[1][1] = "8"; warrior2[1][2] = "1";
+    warrior2[2][0] = "Snotlout"; warrior2[2][1] = "7"; warrior2[2][2] = "2";
+    warrior2[3][0] = "Fishlegs"; warrior2[3][1] = "4"; warrior2[3][2] = "3";
+    warrior2[4][0] = "Ruff and Tuff"; warrior2[4][1] = "2"; warrior2[4][2] = "4";
+    runSingleTestcase32("testcase/test-44/test002.txt", dragons, warrior2);
 
-    warrior[2][0] = "Snotlout";
-    warrior[2][1] = "7";         
-    warrior[2][2] = "2";
-
-    warrior[3][0] = "Fishlegs";
-    warrior[3][1] = "4";
-    warrior[3][2] = "3";
-
-    warrior[4][0] = "Ruff and Tuff";
-    warrior[4][1] = "6";         
-    warrior[4][2] = "4";
-    runSingleTestcase32("testcase/test-44/test001.txt", dragons, warrior);
+    const int W3 = 5; // or however many warriors you have
+    string warrior3[W3][3];
+    warrior3[0][0] = "Hiccup"; warrior3[0][1] = "2"; warrior3[0][2] = "0";
+    warrior3[1][0] = "Astrid"; warrior3[1][1] = "2"; warrior3[1][2] = "1";
+    warrior3[2][0] = "Snotlout"; warrior3[2][1] = "2"; warrior3[2][2] = "2";
+    warrior3[3][0] = "Fishlegs"; warrior3[3][1] = "2"; warrior3[3][2] = "3";
+    warrior3[4][0] = "Ruff and Tuff"; warrior3[4][1] = "2"; warrior3[4][2] = "4";
+    runSingleTestcase32("testcase/test-44/test003.txt", dragons, warrior3);
 }
 
 // Nhiệm vụ 4
@@ -309,7 +313,7 @@ void runTestcase522() {
 
 int main() {
     // nhiệm vụ 1
-    runTestcase1();
+    // runTestcase1();
 
     // nhiệm vụ 2
     // runTestcase2();
@@ -318,7 +322,7 @@ int main() {
     // runTestcase31();
 
     // Nhiệm vụ 3.2
-    // runTestcase32();
+    runTestcase32();
 
     // Nhiệm vụ 4
     // runTestcase4();

@@ -436,11 +436,12 @@ void buddyMatching(Dragon dragons[], string warriors[][3])
             }
         }
 
-        if (bestDragonIndex != -1) {
+        if (bestDragonIndex != -1 && bestCompatibility > 4) {
             dragonTaken[bestDragonIndex] = true;
             printCompatibilityTable(warriorName, dragons[bestDragonIndex].dragonNames, bestCompatibility);
         }
     }
+    headerPrinted = false;
 }
 
 // Task 4
