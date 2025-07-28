@@ -438,10 +438,21 @@ void buddyMatching(Dragon dragons[], string warriors[][3])
 
         if (bestDragonIndex != -1 && bestCompatibility > 4) {
             dragonTaken[bestDragonIndex] = true;
+            dragons[bestDragonIndex].riderNames = warriorName;
             printCompatibilityTable(warriorName, dragons[bestDragonIndex].dragonNames, bestCompatibility);
         }
     }
     headerPrinted = false;
+
+    // for(int i = 0; i < N; i++) {
+    //     cout << "Name: " << dragons[i].dragonNames << " " << 
+    //     "Type: " << dragons[i].dragonTypes << " " << 
+    //     "Damage: " << dragonDamages[dragons[i].dragonTypes - 1] << " " <<
+    //     "Temperatement: " << dragons[i].dragonTemperament << " " <<
+    //     "Ammo Count: " << dragons[i].ammoCounts << " " <<
+    //     "Rider: " << dragons[i].riderNames << endl;
+    // }
+    // cout << "Total: " << N << endl;
 }
 
 // Task 4
@@ -451,61 +462,69 @@ void computeChallengeTime(string warriors[][3], int map[10][10])
     int warriorTime[5] = {0};
 
     for(int i = 0; i < N; i++) {
-        int warriorID = stoi(warriors[i][2]);
+        int warriorId = stoi(warriors[i][2]);
 
         for(int row = 0; row < 10; row++) {
-            for(int col = 0; col < 10; col++) {
-                int tileID = (row + col) % 5;
-                int itemCode = map[row][col];
-
-                if(tileID == warriorID) {
-                    warriorTime[i] += 5;
-                    continue;
-                }
+            if(row % 2 == 0) {
+                for(int column = 0; column < 10; column++) {
+                    int tileID = (row + column) % 5;
+                    if(tileID == warriorId) {
+                        warriorTime[warriorId] += 5;
+                        continue;
+                    }
                     
-                if(itemCode == warriorID) {
-                    int goTime = (row + col * 2) * 5;
-                    int returnTime = abs((row + col * 2) - 1) * 5;
-                    warriorTime[i] += goTime + returnTime;
-                } else {
-                    warriorTime[i] += 5;
+                    if(map[row][column] == warriorId) {
+
+                    } else {
+
+                    }
+                }
+            } else {
+                for(int column = 9; column >= 0; column--) {
+                    int tileID = (row + column) % 5;
+                    if(tileID == warriorId) {
+                        warriorTime[warriorId] += 5;
+                        continue;
+                    }
+
+                    if(map[row][column] == warriorId) {
+
+                    } else {
+
+                    }
                 }
             }
         }
     }
    
-    for (int i = 0; i < N - 1; i++) {
-        for (int j = i + 1; j < N; j++) {
-            if (warriorTime[i] > warriorTime[j]) {
-                int tempTime = warriorTime[i];
-                warriorTime[i] = warriorTime[j];
-                warriorTime[j] = tempTime;
+    // for (int i = 0; i < N - 1; i++) {
+    //     for (int j = i + 1; j < N; j++) {
+    //         if (warriorTime[i] > warriorTime[j]) {
+    //             int tempTime = warriorTime[i];
+    //             warriorTime[i] = warriorTime[j];
+    //             warriorTime[j] = tempTime;
 
-                string tempName = warriors[i][0];
-                warriors[i][0] = warriors[j][0];
-                warriors[j][0] = tempName;
-            }
-        }
-    }
+    //             string tempName = warriors[i][0];
+    //             warriors[i][0] = warriors[j][0];
+    //             warriors[j][0] = tempName;
+    //         }
+    //     }
+    // }
 
-    cout << left << setw(15) << "Warrior" << "Total time (secs)" << endl;
-    for(int i = 0; i < 4; i++) {
-        cout << left << setw(15) << warriors[i][0] << warriorTime[i] << endl;
-    }
+    // cout << left << setw(15) << "Warrior" << "Total time (secs)" << endl;
+    // for(int i = 0; i < 4; i++) {
+    //     cout << left << setw(15) << warriors[i][0] << warriorTime[i] << endl;
+    // }
 }
 
 // Task 5.1
 void fighterDamage(Dragon dragons[], string warriors[][3], int teamsDamage[])
 {
     // TODO: Implement this function
-    for(int i = 0; i < N; i++) {
-        for(int j = 0; j < N; j++) {
-            if(warriors[i][0] == dragons[j].riderNames) {
-                int damage = (dragonDamages[dragons[j-1].dragonTypes] * dragons[j].ammoCounts) + (stoi(warriors[i][1]) * 5);
-                teamsDamage[i] = damage;
-                cout << dragons[j].riderNames <<"-"<< dragons[j].dragonNames << ": damage = " << damage << endl;
-            }
-        }
+    for(int i= 0; i < N; i++) {
+        int damage = (dragonDamages[dragons[i].dragonTypes - 1] * dragons[i].ammoCounts) + (stoi(warriors[i][1]) * 5);
+        teamsDamage[i] = damage;
+        cout << warriors[i][0] <<"-"<< dragons[i].dragonNames << ": damage = " << damage << endl;
     }
 }
 
@@ -561,9 +580,178 @@ void findKeyLocation(int map[10][10], int &keyX, int &keyY) {
     keyX = x;
     keyY = y;
 }
+
+void findTimeDragonLocaion(int map[10][10], int &dragonX, int &dragonY) {
+    int max = 0;
+
+    // Biên trên
+    for(int i = 0; i < 10; i++) {
+        if(map[0][i] > max) {
+            max = map[0][i];
+            dragonX = 0;
+            dragonY = i;
+        }
+    }
+
+    // Biên Trái
+    for(int i = 0; i < 10; i++) {
+        if(map[i][0] > max) {
+            max = map[i][0];
+            dragonX = i;
+            dragonY = 0;
+        }
+    }
+
+    // Biên Phải
+    for(int i = 0; i < 10; i++) {
+        if(map[i][9] > max) {
+            max = map[i][9];
+            dragonX = i;
+            dragonY = 9;
+        }
+    }
+
+    // Biên Đáy
+    for(int i = 0; i < 10; i++) {
+        if(map[9][i] > max) {
+            max = map[9][i];
+            dragonX = 9;
+            dragonY = i;
+        }
+    }
+}
+
+bool isMagicMountain(int map[10][10], int row, int col) {
+    int val = map[row][col];
+    return (val > map[row - 1][col]) && (val > map[row + 1][col]) && (val > map[row][col - 1]) && (val > map[row][col + 1]);
+}
+
+void findMagicMountainLocation(int map[10][10], int &mountainX, int &mountainY) {
+    for(int row = 1; row < 9; row++) {
+        for(int col = 1; col < 9; col++) {
+            if(isMagicMountain(map, row, col)) {
+                mountainX = row;
+                mountainY = col;
+            }
+        }
+    }
+}
+
+void processCell(int map[10][10], int& row, int& col, int& warriorTime, int& warriorDamage, int& HP, bool& isKeyFound,
+                int keyX, int keyY, int heritageX, int heritageY, int dragonX, int dragonY, 
+                int mountainX, int mountainY, bool& isGameComplete) 
+{   
+    if(row == keyX && col == keyY) {
+        warriorTime += 2;
+        isKeyFound = true;
+        return;
+    }
+
+    if(row == heritageX && col == heritageY) {
+        warriorTime += 2;
+        if(isKeyFound) isGameComplete = true;
+        return;
+    }
+
+    if(map[row][col] == 0) {
+        warriorTime += 2;
+        return;
+    }
+
+    if(map[row][col] >= 1 && map[row][col] <= 200) {
+        int opponentDamage = map[row][col];
+
+        if(row == dragonX && col == dragonY) {
+            if(warriorDamage < opponentDamage) {
+                HP -= 2;
+                map[row][col] = 0;
+                if(row == 0) {row = 0; col = 0;}
+                row -= 1;
+            }
+            warriorTime += 10;
+        } else if(row == mountainX && col == mountainY) {
+            if(warriorDamage < opponentDamage) {
+                HP -= 2;
+                map[row][col] = 0;
+                int temp = row;
+                row = col;
+                col = temp;
+            }
+            warriorTime += 10;
+        } else {
+            if(warriorDamage < opponentDamage) {
+                HP -= 1;
+            }
+            warriorTime += 5;
+            map[row][col] = 0;
+        }
+    }
+}
+
 void totalTime(int map[10][10], int warriorDamage, int HP) {
-    // TODO: Implement this function
-    
+    // Track last visited cell
+    int heritageX, heritageY;
+    findHeritageLocation(map, heritageX, heritageY);
+    // cout << heritageX << " " << heritageY << endl;
+
+    int keyX, keyY;
+    findKeyLocation(map, keyX, keyY);
+    // cout << keyX << " " << keyY << endl;
+
+    int dragonX, dragonY;
+    findTimeDragonLocaion(map, dragonX, dragonY);
+    // cout << dragonX << " " << dragonY << endl;
+
+    int mountainX, mountainY;
+    findMagicMountainLocation(map, mountainX, mountainY);
+    // cout << mountainX << " " << mountainY << endl;
+
+    int warriorTime = 0;
+    int row = 0, col = 0;
+    bool isLeftToRight = true;
+    bool isKeyFound = false;
+    bool isGameComplete = false;
+    string paths = "";
+
+    while(HP > 0) {
+        processCell(map, row, col, warriorTime, warriorDamage, HP, isKeyFound, keyX, keyY, heritageX, heritageY, dragonX, dragonY, mountainX, mountainY, isGameComplete);
+        // cout << "(" << row << ";" << col << ")" << ": HP: " << HP << " Time: " << warriorTime << endl;
+        paths = paths + "(" + to_string(row) + "," + to_string(col) + ")";
+
+        if(isGameComplete) break;
+
+        if(isKeyFound) {
+            isLeftToRight = (!(row % 2 == 0));
+        } else {
+            isLeftToRight = (row % 2 == 0);
+        }
+
+        if(isLeftToRight) {
+            if(col < 9) {
+                col++;
+            } else {
+                isKeyFound ? row-- : row++;
+                isLeftToRight = false;
+                col = 9;
+            }
+        } else {
+            if(col > 0) {
+                col--;
+            } else {
+                isKeyFound ? row-- : row++;
+                isLeftToRight = true;
+                col = 0;
+            }
+        }
+    }
+
+    if(isGameComplete) {
+        cout << "Total Time: " << warriorTime << " (sec)" <<endl;
+        cout << "Remaining HP: " << HP << endl;
+        cout << "Path: " << paths << endl;
+    } else {
+        cout << "Warrior defeated! Challenge failed!" << endl;
+    }
 }
 
 ////////////////////////////////////////////////
