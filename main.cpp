@@ -386,7 +386,7 @@ int main() {
     // runTestcase32();
 
     // Nhiệm vụ 4
-    // runTestcase4();
+    runTestcase4();
 
     // Nhiệm vụ 5.1
     // runTestcase51();
@@ -398,7 +398,7 @@ int main() {
     // runTestcase522();
 
     // Nhiệm vụ 5.2.3
-    runTestcase523();
+    // runTestcase523();
 
     // runSpecificTestcase(1, 1);
 

@@ -474,9 +474,11 @@ void computeChallengeTime(string warriors[][3], int map[10][10])
                     }
                     
                     if(map[row][column] == warriorId) {
-
+                        int goTime = (row + column * 2) * 5;
+                        int returnTime = abs((row + column * 2) - 1) * 5;
+                        warriorTime[warriorId] += (goTime + returnTime);
                     } else {
-
+                        warriorTime[warriorId] += 5;
                     }
                 }
             } else {
@@ -488,33 +490,39 @@ void computeChallengeTime(string warriors[][3], int map[10][10])
                     }
 
                     if(map[row][column] == warriorId) {
-
+                        if(row == 9 && column == 0) {
+                            int returnTime = abs((row + column * 2) - 1) * 5;
+                            warriorTime[warriorId] += returnTime;
+                        }
+                        int goTime = (row + column * 2) * 5;
+                        int returnTime = abs((row + column * 2) - 1) * 5;
+                        warriorTime[warriorId] += (goTime + returnTime);
                     } else {
-
+                        warriorTime[warriorId] += 5;
                     }
                 }
             }
         }
     }
    
-    // for (int i = 0; i < N - 1; i++) {
-    //     for (int j = i + 1; j < N; j++) {
-    //         if (warriorTime[i] > warriorTime[j]) {
-    //             int tempTime = warriorTime[i];
-    //             warriorTime[i] = warriorTime[j];
-    //             warriorTime[j] = tempTime;
+    for (int i = 0; i < N - 1; i++) {
+        for (int j = i + 1; j < N; j++) {
+            if (warriorTime[i] > warriorTime[j]) {
+                int tempTime = warriorTime[i];
+                warriorTime[i] = warriorTime[j];
+                warriorTime[j] = tempTime;
 
-    //             string tempName = warriors[i][0];
-    //             warriors[i][0] = warriors[j][0];
-    //             warriors[j][0] = tempName;
-    //         }
-    //     }
-    // }
+                string tempName = warriors[i][0];
+                warriors[i][0] = warriors[j][0];
+                warriors[j][0] = tempName;
+            }
+        }
+    }
 
-    // cout << left << setw(15) << "Warrior" << "Total time (secs)" << endl;
-    // for(int i = 0; i < 4; i++) {
-    //     cout << left << setw(15) << warriors[i][0] << warriorTime[i] << endl;
-    // }
+    cout << left << setw(15) << "Warrior" << "Total time (secs)" << endl;
+    for(int i = 0; i < 5; i++) {
+        cout << left << setw(15) << warriors[i][0] << warriorTime[i] << endl;
+    }
 }
 
 // Task 5.1
