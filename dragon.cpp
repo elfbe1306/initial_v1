@@ -645,7 +645,7 @@ void findMagicMountainLocation(int map[10][10], int &mountainX, int &mountainY) 
     }
 }
 
-void processCell(int map[10][10], int& row, int& col, int& warriorTime, int& warriorDamage, int& HP, bool& isKeyFound,
+void processCell(int map[10][10], string& paths, int& row, int& col, int& warriorTime, int& warriorDamage, int& HP, bool& isKeyFound,
                 int keyX, int keyY, int heritageX, int heritageY, int dragonX, int dragonY, 
                 int mountainX, int mountainY, bool& isGameComplete) 
 {   
@@ -675,6 +675,9 @@ void processCell(int map[10][10], int& row, int& col, int& warriorTime, int& war
                 map[row][col] = 0;
                 if(row == 0) {row = 0; col = 0;}
                 row -= 1;
+
+                paths += " ";
+                paths += "(" + to_string(row) + "," + to_string(col) + ")";
             }
             warriorTime += 10;
         } else if(row == mountainX && col == mountainY) {
@@ -684,6 +687,9 @@ void processCell(int map[10][10], int& row, int& col, int& warriorTime, int& war
                 int temp = row;
                 row = col;
                 col = temp;
+
+                paths += " ";
+                paths += "(" + to_string(row) + "," + to_string(col) + ")";
             }
             warriorTime += 10;
         } else {
@@ -722,9 +728,11 @@ void totalTime(int map[10][10], int warriorDamage, int HP) {
     string paths = "";
 
     while(HP > 0) {
-        processCell(map, row, col, warriorTime, warriorDamage, HP, isKeyFound, keyX, keyY, heritageX, heritageY, dragonX, dragonY, mountainX, mountainY, isGameComplete);
+        if (!paths.empty()) paths += " ";
+        paths += "(" + to_string(row) + "," + to_string(col) + ")";
+
+        processCell(map, paths, row, col, warriorTime, warriorDamage, HP, isKeyFound, keyX, keyY, heritageX, heritageY, dragonX, dragonY, mountainX, mountainY, isGameComplete);
         // cout << "(" << row << ";" << col << ")" << ": HP: " << HP << " Time: " << warriorTime << endl;
-        paths = paths + "(" + to_string(row) + "," + to_string(col) + ")";
 
         if(isGameComplete) break;
 
@@ -753,13 +761,13 @@ void totalTime(int map[10][10], int warriorDamage, int HP) {
         }
     }
 
-    if(isGameComplete) {
-        cout << "Total Time: " << warriorTime << " (sec)" <<endl;
-        cout << "Remaining HP: " << HP << endl;
-        cout << "Path: " << paths << endl;
-    } else {
+    if(!isGameComplete) {
         cout << "Warrior defeated! Challenge failed!" << endl;
     }
+
+    cout << "Total time: " << warriorTime << " (sec)" <<endl;
+    cout << "Remaining HP: " << HP << endl;
+    cout << "Path: " << paths << endl;
 }
 
 ////////////////////////////////////////////////
