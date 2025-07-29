@@ -646,7 +646,7 @@ void findMagicMountainLocation(int map[10][10], int &mountainX, int &mountainY) 
 }
 
 void processCell(int map[10][10], string& paths, int& row, int& col, int& warriorTime, int& warriorDamage, int& HP, bool& isKeyFound,
-                int keyX, int keyY, int heritageX, int heritageY, int dragonX, int dragonY, 
+                bool& isHeritagePass, int keyX, int keyY, int heritageX, int heritageY, int dragonX, int dragonY, 
                 int mountainX, int mountainY, bool& isGameComplete) 
 {   
     if(row == keyX && col == keyY) {
@@ -656,6 +656,7 @@ void processCell(int map[10][10], string& paths, int& row, int& col, int& warrio
     }
 
     if(row == heritageX && col == heritageY) {
+        isHeritagePass = true;
         warriorTime += 2;
         if(isKeyFound) isGameComplete = true;
         return;
@@ -724,6 +725,7 @@ void totalTime(int map[10][10], int warriorDamage, int HP) {
     int row = 0, col = 0;
     bool isLeftToRight = true;
     bool isKeyFound = false;
+    bool isHeritagePass = false;
     bool isGameComplete = false;
     string paths = "";
 
@@ -731,12 +733,13 @@ void totalTime(int map[10][10], int warriorDamage, int HP) {
         if (!paths.empty()) paths += " ";
         paths += "(" + to_string(row) + "," + to_string(col) + ")";
 
-        processCell(map, paths, row, col, warriorTime, warriorDamage, HP, isKeyFound, keyX, keyY, heritageX, heritageY, dragonX, dragonY, mountainX, mountainY, isGameComplete);
+        processCell(map, paths, row, col, warriorTime, warriorDamage, HP, isKeyFound, isHeritagePass, keyX, keyY, heritageX, heritageY, dragonX, dragonY, mountainX, mountainY, isGameComplete);
+
         // cout << "(" << row << ";" << col << ")" << ": HP: " << HP << " Time: " << warriorTime << endl;
 
         if(isGameComplete) break;
 
-        if(isKeyFound) {
+        if(isKeyFound && isHeritagePass) {
             isLeftToRight = (!(row % 2 == 0));
         } else {
             isLeftToRight = (row % 2 == 0);
@@ -746,7 +749,7 @@ void totalTime(int map[10][10], int warriorDamage, int HP) {
             if(col < 9) {
                 col++;
             } else {
-                isKeyFound ? row-- : row++;
+                isKeyFound && isHeritagePass ? row-- : row++;
                 isLeftToRight = false;
                 col = 9;
             }
@@ -754,7 +757,7 @@ void totalTime(int map[10][10], int warriorDamage, int HP) {
             if(col > 0) {
                 col--;
             } else {
-                isKeyFound ? row-- : row++;
+                isKeyFound && isHeritagePass ? row-- : row++;
                 isLeftToRight = true;
                 col = 0;
             }

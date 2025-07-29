@@ -10,397 +10,271 @@
 
 #include "dragon.h"
 
-// Nhiệm vụ 1
-void runSingleTestcase1(const string& inputFile, int expectedResult) {
-    cout << "Running test case: " << inputFile << endl;
+#include <iostream>
+#include <sstream>
+#include <functional>
+#include <string>
 
-    int result = readFile(inputFile, dragons, dragonDamages, N);
-    cout << "Result code: " << result;
-    if (result == expectedResult) {
-        cout << " ✅ Passed";
+using namespace std;
+
+void runTestcase(const string& testName, const function<void()>& testFunction, const string& expectedOutput) {
+    // Redirect cout to a stringstream
+    stringstream buffer;
+    streambuf* oldCout = cout.rdbuf(buffer.rdbuf());
+
+    // Run the provided test logic
+    testFunction();
+
+    // Restore cout
+    cout.rdbuf(oldCout);
+
+    string actualOutput = buffer.str();
+
+    if (actualOutput == expectedOutput) {
+        cout << "[PASS] " << testName << endl;
     } else {
-        cout << " ❌ Failed (Expected: " << expectedResult << ")";
+        cout << "[FAIL] " << testName << endl;
+        cout << "Expected:\n------------------\n" << expectedOutput;
+        cout << "\nActual:\n------------------\n" << actualOutput;
     }
-
-    cout << endl << "---------------------------------------" << endl;
 }
 
-void runTestcase1() {
-    runSingleTestcase1("testcase/test-41/test001.txt", 1);
-    runSingleTestcase1("testcase/test-41/test002.txt", 4);
-    runSingleTestcase1("testcase/test-41/test003.txt", 5);
-    runSingleTestcase1("testcase/test-41/test004.txt", 9);
-    runSingleTestcase1("testcase/test-41/test005.txt", 6);
-    runSingleTestcase1("testcase/test-41/test006.txt", 7);
-    runSingleTestcase1("testcase/test-41/test007.txt", 8);
-    runSingleTestcase1("testcase/test-41/test008.txt", 9);
-    runSingleTestcase1("testcase/test-41/test009.txt", 10);
-    runSingleTestcase1("testcase/test-41/test010.txt", 101);
-    runSingleTestcase1("testcase/test-41/test011.txt", 503);
-    runSingleTestcase1("testcase/test-41/test012.txt", 103);
-    runSingleTestcase1("testcase/test-41/test013.txt", 904);
-    runSingleTestcase1("testcase/test-41/test014.txt", 902);
-    runSingleTestcase1("testcase/test-41/test015.txt", 1004);
-    runSingleTestcase1("testcase/test-41/test016.txt", 1002);
-    runSingleTestcase1("testcase/test-41/test017.txt", 102);
-    runSingleTestcase1("testcase/test-41/test018.txt", 1003);
+void testMission1() {
+    cout << "Mission 1: " << endl;
+    runTestcase(
+        "Testcase 1",
+        []() {
+            cout << readFile("testcases/mission1/tnc_tc_01_input.txt", dragons, dragonDamages, N) << endl;
+        },
+        "1\n"
+    );
+
+    runTestcase(
+        "Testcase 2",
+        []() {
+            cout << readFile("testcases/mission1/tnc_tc_02_input.txt", dragons, dragonDamages, N) << endl;
+        },
+        "4\n"
+    );
+    
+    runTestcase(
+        "Testcase 3",
+        []() {
+            cout << readFile("testcases/mission1/tnc_tc_03_input.txt", dragons, dragonDamages, N) << endl;
+        },
+        "5\n"
+    );
+    
+    runTestcase(
+        "Testcase 4",
+        []() {
+            cout << readFile("testcases/mission1/tnc_tc_04_input.txt", dragons, dragonDamages, N) << endl;
+        },
+        "9\n"
+    );
+
+    runTestcase(
+        "Testcase 5",
+        []() {
+            cout << readFile("testcases/mission1/tnc_tc_05_input.txt", dragons, dragonDamages, N) << endl;
+        },
+        "101\n"
+    );
+
+    runTestcase(
+        "Testcase 6",
+        []() {
+            cout << readFile("testcases/mission1/tnc_tc_06_input.txt", dragons, dragonDamages, N) << endl;
+        },
+        "503\n"
+    );
+
+    runTestcase(
+        "Testcase 7",
+        []() {
+            cout << readFile("testcases/mission1/tnc_tc_07_input.txt", dragons, dragonDamages, N) << endl;
+        },
+        "904\n"
+    );
+
+    runTestcase(
+        "Testcase 8",
+        []() {
+            cout << readFile("testcases/mission1/tnc_tc_08_input.txt", dragons, dragonDamages, N) << endl;
+        },
+        "1003\n"
+    );
+
+    cout << "----------" << endl;
 }
 
-// Nhiệm vụ 2
-void runSingleTestcase2(const string& inputFile, int T, string expectedResult) {
-    cout << "Running test case: " << inputFile << endl;
+void testMission2() {
+    cout << "Mission 2: " << endl;
 
-    int read = readFile(inputFile, dragons, dragonDamages, N);
-    string result = findKthStrongestDragon(dragons, dragonDamages, N, T); 
-    cout << "Result code: " << result;
-    if (result == expectedResult) {
-        cout << " ✅ Passed";
-    } else {
-        cout << " ❌ Failed (Expected: " << expectedResult << ")";
-    }
+    runTestcase(
+        "Testcase 1",
+        []() {
+            cout << readFile("testcases/mission2/tnc_tc_01_input.txt", dragons, dragonDamages, N) << endl;
+            cout << findKthStrongestDragon(dragons, dragonDamages, N, 6) << endl;
+        },
+        "1\n"
+        "Hookfang\n"
+    );
 
-    cout << endl << "---------------------------------------" << endl;
+    runTestcase(
+        "Testcase 2",
+        []() {
+            cout << readFile("testcases/mission2/tnc_tc_02_input.txt", dragons, dragonDamages, N) << endl;
+            cout << findKthStrongestDragon(dragons, dragonDamages, N, 6) << endl;
+        },
+        "1\n"
+        "None\n"
+    );
+
+    cout << "----------" << endl;
 }
 
-void runTestcase2() {
-    runSingleTestcase2("testcase/test-42/test001.txt", 6, "Hookfang");
-    runSingleTestcase2("testcase/test-42/test002.txt", 6, "None");
-    runSingleTestcase2("testcase/test-42/test003.txt", 6, "HookAfang");
-    runSingleTestcase2("testcase/test-42/test004.txt", 6, "Hook#fang");
+void testMission3() {
+    cout << "Mission 3: " << endl;
+
+    runTestcase(
+        "Testcase 1",
+        []() {
+            cout << readFile("testcases/mission3/tnc_tc_01_input.txt", dragons, dragonDamages, N) << endl;
+            compatibilityCheck(dragons, "Hiccup", 6);
+        },
+        "1\n"
+        "Warrior      Dragon        Compatibility    Review\n"
+        "Hiccup       Toothless     3.50             Not Compatible\n"
+        "Hiccup       Stormfly      4.00             Not Compatible\n"
+        "Hiccup       Hookfang      4.50             Compatible\n"
+        "Hiccup       Meatlug       4.50             Compatible\n"
+        "Hiccup       Barf and Belch5.00             Compatible\n"
+    );
+
+    runTestcase(
+        "Testcase 2",
+        []() {
+            cout << readFile("testcases/mission3/tnc_tc_02_input.txt", dragons, dragonDamages, N) << endl;
+            compatibilityCheck(dragons, "Astrid", 2);
+        },
+        "1\n"
+        "Warrior      Dragon        Compatibility    Review\n"
+        "Astrid       Toothless     4.50             Compatible\n"
+        "Astrid       Stormfly      5.00             Compatible\n"
+        "Astrid       Hookfang      4.00             Not Compatible\n"
+    );
+
+    // runTestcase(
+    //     "Testcase 13",
+    //     []() {
+    //         cout << readFile("testcases/tnc_tc_11_input.txt", dragons, dragonDamages, N) << endl;
+    //         string warriors_13[5][3] = {
+    //             {"Hiccup", "8", "0"},
+    //             {"Astrid", "7", "1"},
+    //             {"Snotlout", "9", "2"},
+    //             {"Fishlegs", "6", "3"},
+    //             {"Ruff&Tuff", "7", "4"},
+    //         };
+    //         buddyMatching(dragons, warriors_13);
+    //     },
+    //     "1\n"
+    //     "Warrior      Dragon        Compatibility    Review\n"
+    //     "Hiccup       Stormfly      5.00             Compatible\n"
+    //     "Astrid       Hookfang      5.00             Compatible\n"
+    //     "Snotlout     Toothless     5.00             Compatible\n"
+    //     "Fishlegs     Barf and Belch5.00             Compatible\n"
+    //     "Ruff&Tuff    Meatlug       5.00             Compatible\n"
+    // );
+
+    // runTestcase(
+    //     "Testcase 14",
+    //     []() {
+    //         cout << readFile("testcases/tnc_tc_12_input.txt", dragons, dragonDamages, N) << endl;
+    //         string warriors_14[3][3] = {
+    //             {"Valka", "10", "0"},
+    //             {"Eret", "6", "1"},
+    //             {"Gobber", "4", "2"},
+    //         };
+    //         buddyMatching(dragons, warriors_14);
+    //     },
+    //     "1\n"
+    //     "Warrior      Dragon        Compatibility    Review\n"
+    //     "Valka        Hookfang      2.00             Not Compatible\n"
+    //     "Eret         Toothless     3.50             Not Compatible\n"
+    //     "Gobber       Stormfly      4.00             Not Compatible\n"
+    // );
+
+    cout << "----------" << endl;
 }
 
-// Nhiệm vụ 3.1
-void runSingleTestcase31(const string& inputFile, string warriorName, int warriorSkill) {
-    cout << "Running test case: " << inputFile << endl;
+void testMission4() {
+    cout << "Mission 4: " << endl;
 
-    int read = readFile(inputFile, dragons, dragonDamages, N);
-    compatibilityCheck(dragons, warriorName, warriorSkill);
 
-    cout << endl << "---------------------------------------" << endl;
+    cout << "----------" << endl;
 }
 
-void runTestcase31() {
-    runSingleTestcase31("testcase/test-43/test001.txt", "Hiccup", 9);
-    runSingleTestcase31("testcase/test-43/test002.txt", "Snotlout", 6);
-    runSingleTestcase31("testcase/test-43/test003.txt", "Fish@legs", 7);
+void testMission5() {
+    cout << "Mission 5: " << endl;
+
+    runTestcase(
+        "Testcase 1",
+        []() {
+            int map_1[10][10] = {
+                {10, 20, 30, 40, 50, 60, 70, 80, 90, 100},
+                {15, 25, 35, 45, 55, 65, 75, 85, 95, 105},
+                {12, 22, 32, 42, 52, 62, 72, 82, 92, 175},
+                {118, 128, 138, 50, 58, 68, 78, 88, 98, 108},
+                {14, 24, 34, 44, 54, 64, 74, 84, 94, 104},
+                {19, 29, 39, 49, 59, 69, 79, 89, 99, 109},
+                {11, 21, 31, 41, 51, 61, 71, 81, 91, 101},
+                {16, 26, 36, 46, 56, 66, 76, 186, 96, 106},
+                {17, 27, 37, 47, 57, 67, 196, 87, 90, 107},
+                {11, 23, 33, 43, 53, 63, 73, 153, 93, 170}};
+
+            int playerDamage_1 = 150;
+            totalTime(map_1, playerDamage_1, 20);
+        },
+        "Total time: 627 (sec)\n"
+        "Remaining HP: 15\n"
+        "Path: (0,0) (0,1) (0,2) (0,3) (0,4) (0,5) (0,6) (0,7) (0,8) (0,9) (1,9) (1,8) (1,7) (1,6) (1,5) (1,4) (1,3) (1,2) (1,1) (1,0) (2,0) (2,1) (2,2) (2,3) (2,4) (2,5) (2,6) (2,7) (2,8) (2,9) (1,9) (1,8) (1,7) (1,6) (1,5) (1,4) (1,3) (1,2) (1,1) (1,0) (2,0) (2,1) (2,2) (2,3) (2,4) (2,5) (2,6) (2,7) (2,8) (2,9) (3,9) (3,8) (3,7) (3,6) (3,5) (3,4) (3,3) (3,2) (3,1) (3,0) (4,0) (4,1) (4,2) (4,3) (4,4) (4,5) (4,6) (4,7) (4,8) (4,9) (5,9) (5,8) (5,7) (5,6) (5,5) (5,4) (5,3) (5,2) (5,1) (5,0) (6,0) (6,1) (6,2) (6,3) (6,4) (6,5) (6,6) (6,7) (6,8) (6,9) (7,9) (7,8) (7,7) (7,6) (7,5) (7,4) (7,3) (7,2) (7,1) (7,0) (8,0) (8,1) (8,2) (8,3) (8,4) (8,5) (8,6) (6,8) (6,9) (7,9) (7,8) (7,7) (7,6) (7,5) (7,4) (7,3) (7,2) (7,1) (7,0) (8,0) (8,1) (8,2) (8,3) (8,4) (8,5) (8,6) (8,7) (8,8) (8,7) (8,6) (8,5) (8,4) (8,3) (8,2) (8,1) (8,0) (7,0) (7,1) (7,2) (7,3) (7,4) (7,5) (7,6) (7,7) (7,8) (7,9) (6,9) (6,8) (6,7) (6,6) (6,5) (6,4) (6,3) (6,2) (6,1) (6,0) (5,0) (5,1) (5,2) (5,3) (5,4) (5,5) (5,6) (5,7) (5,8) (5,9) (4,9) (4,8) (4,7) (4,6) (4,5) (4,4) (4,3) (4,2) (4,1) (4,0) (3,0) (3,1) (3,2) (3,3)\n"
+    );
+
+    runTestcase(
+        "Testcase 2",
+        []() {
+            int map_2[10][10] = {
+                {10, 20, 30, 40, 50, 60, 70, 80, 90, 100},
+                {15, 25, 35, 45, 55, 65, 75, 85, 95, 105},
+                {12, 22, 32, 55, 52, 62, 72, 82, 92, 175},
+                {18, 28, 18, 50, 58, 68, 78, 88, 98, 108},
+                {14, 24, 34, 44, 54, 64, 74, 84, 94, 104},
+                {19, 29, 39, 49, 59, 69, 79, 89, 99, 109},
+                {11, 21, 31, 41, 51, 61, 71, 81, 91, 101},
+                {16, 26, 36, 46, 56, 66, 76, 186, 96, 106},
+                {17, 27, 37, 47, 57, 67, 196, 87, 90, 107},
+                {33, 53, 35, 43, 53, 63, 73, 153, 93, 170}
+            };
+
+            int playerDamage_2 = 150;
+            totalTime(map_2, playerDamage_2, 20);
+        },
+        "Total time: 578 (sec)\n"
+        "Remaining HP: 13\n"
+        "Path: (0,0) (0,1) (0,2) (0,3) (0,4) (0,5) (0,6) (0,7) (0,8) (0,9) (1,9) (1,8) (1,7) (1,6) (1,5) (1,4) (1,3) (1,2) (1,1) (1,0) (2,0) (2,1) (2,2) (2,3) (2,4) (2,5) (2,6) (2,7) (2,8) (2,9) (1,9) (1,8) (1,7) (1,6) (1,5) (1,4) (1,3) (1,2) (1,1) (1,0) (2,0) (2,1) (2,2) (2,3) (2,4) (2,5) (2,6) (2,7) (2,8) (2,9) (3,9) (3,8) (3,7) (3,6) (3,5) (3,4) (3,3) (3,2) (3,1) (3,0) (4,0) (4,1) (4,2) (4,3) (4,4) (4,5) (4,6) (4,7) (4,8) (4,9) (5,9) (5,8) (5,7) (5,6) (5,5) (5,4) (5,3) (5,2) (5,1) (5,0) (6,0) (6,1) (6,2) (6,3) (6,4) (6,5) (6,6) (6,7) (6,8) (6,9) (7,9) (7,8) (7,7) (7,6) (7,5) (7,4) (7,3) (7,2) (7,1) (7,0) (8,0) (8,1) (8,2) (8,3) (8,4) (8,5) (8,6) (6,8) (6,9) (7,9) (7,8) (7,7) (7,6) (7,5) (7,4) (7,3) (7,2) (7,1) (7,0) (8,0) (8,1) (8,2) (8,3) (8,4) (8,5) (8,6) (8,7) (8,8) (8,9) (9,9) (9,8) (9,7) (9,6) (9,5) (9,4) (9,3) (9,2) (9,1) (9,0)\n"
+    );
+
+    cout << "----------" << endl;
 }
-
-// Nhiệm vụ 3.2
-void runSingleTestcase32(const string& inputFile, Dragon dragons[], string warrior[][3]) {
-    cout << "Running test case: " << inputFile << endl;
-
-    int read = readFile(inputFile, dragons, dragonDamages, N);
-    buddyMatching(dragons, warrior);
-
-    cout << endl << "---------------------------------------" << endl;
-}
-
-void runTestcase32() {
-    const int W1 = 5; // or however many warriors you have
-    string warrior1[W1][3];
-    warrior1[0][0] = "Hiccup"; warrior1[0][1] = "9"; warrior1[0][2] = "0";
-    warrior1[1][0] = "Astrid"; warrior1[1][1] = "8"; warrior1[1][2] = "1";
-    warrior1[2][0] = "Snotlout"; warrior1[2][1] = "7"; warrior1[2][2] = "2";
-    warrior1[3][0] = "Fishlegs"; warrior1[3][1] = "4"; warrior1[3][2] = "3";
-    warrior1[4][0] = "Ruff and Tuff"; warrior1[4][1] = "6"; warrior1[4][2] = "4";
-    runSingleTestcase32("testcase/test-44/test001.txt", dragons, warrior1);
-
-    const int W2 = 5; // or however many warriors you have
-    string warrior2[W2][3];
-    warrior2[0][0] = "Hiccup"; warrior2[0][1] = "9"; warrior2[0][2] = "0";
-    warrior2[1][0] = "Astrid"; warrior2[1][1] = "8"; warrior2[1][2] = "1";
-    warrior2[2][0] = "Snotlout"; warrior2[2][1] = "7"; warrior2[2][2] = "2";
-    warrior2[3][0] = "Fishlegs"; warrior2[3][1] = "4"; warrior2[3][2] = "3";
-    warrior2[4][0] = "Ruff and Tuff"; warrior2[4][1] = "2"; warrior2[4][2] = "4";
-    runSingleTestcase32("testcase/test-44/test002.txt", dragons, warrior2);
-
-    const int W3 = 5; // or however many warriors you have
-    string warrior3[W3][3];
-    warrior3[0][0] = "Hiccup"; warrior3[0][1] = "2"; warrior3[0][2] = "0";
-    warrior3[1][0] = "Astrid"; warrior3[1][1] = "2"; warrior3[1][2] = "1";
-    warrior3[2][0] = "Snotlout"; warrior3[2][1] = "2"; warrior3[2][2] = "2";
-    warrior3[3][0] = "Fishlegs"; warrior3[3][1] = "2"; warrior3[3][2] = "3";
-    warrior3[4][0] = "Ruff and Tuff"; warrior3[4][1] = "2"; warrior3[4][2] = "4";
-    runSingleTestcase32("testcase/test-44/test003.txt", dragons, warrior3);
-
-    const int W4 = 5; // or however many warriors you have
-    string warrior4[W4][3];
-    warrior4[0][0] = "Hiccup"; warrior4[0][1] = "2"; warrior4[0][2] = "0";
-    warrior4[1][0] = "Astrid"; warrior4[1][1] = "7"; warrior4[1][2] = "1";
-    warrior4[2][0] = "Snotlout"; warrior4[2][1] = "9"; warrior4[2][2] = "2";
-    warrior4[3][0] = "Fishlegs"; warrior4[3][1] = "8"; warrior4[3][2] = "3";
-    warrior4[4][0] = "Ruff and Tuff"; warrior4[4][1] = "4"; warrior4[4][2] = "4";
-    runSingleTestcase32("testcase/test-44/test004.txt", dragons, warrior4);
-}
-
-// Nhiệm vụ 4
-void runSingleTestcase4(const string& inputFile, Dragon dragons[], string warrior[][3], int map[10][10]) {
-    cout << "Running test case: " << inputFile << endl;
-
-    int read = readFile(inputFile, dragons, dragonDamages, N);
-    computeChallengeTime(warrior, map);
-
-    cout << endl << "---------------------------------------" << endl;
-}
-
-void runTestcase4() {
-    int map[10][10] = {
-        {0, 1, 2, 3, 4, 5, 0, 1, 2, 3},
-        {4, 5, 0, 1, 2, 3, 4, 5, 0, 1},
-        {2, 3, 4, 5, 0, 1, 2, 3, 4, 5},
-        {0, 1, 2, 3, 4, 5, 0, 1, 2, 3},
-        {4, 5, 0, 1, 2, 3, 4, 5, 0, 1},
-        {2, 3, 4, 5, 0, 1, 2, 3, 4, 5},
-        {0, 1, 2, 3, 4, 5, 0, 1, 2, 3},
-        {4, 5, 0, 1, 2, 3, 4, 5, 0, 1},
-        {2, 3, 4, 5, 0, 1, 2, 3, 4, 5},
-        {0, 1, 2, 3, 4, 5, 0, 1, 2, 3},
-    };
-
-    const int W = 5;
-    string warrior[W][3];
-    warrior[0][0] = "Hiccup";
-    warrior[0][1] = "9";         
-    warrior[0][2] = "0";
-
-    warrior[1][0] = "Astrid";
-    warrior[1][1] = "8";
-    warrior[1][2] = "1";
-
-    warrior[2][0] = "Snotlout";
-    warrior[2][1] = "7";         
-    warrior[2][2] = "2";
-
-    warrior[3][0] = "Fishlegs";
-    warrior[3][1] = "4";
-    warrior[3][2] = "3";
-
-    warrior[4][0] = "Ruff and Tuff";
-    warrior[4][1] = "6";         
-    warrior[4][2] = "4";
-    runSingleTestcase4("testcase/test-45/test001.txt", dragons, warrior, map);
-}
-
-// Nhiệm vụ 5.1
-void runSingleTestcase51(const string& inputFile, Dragon dragons[], string warrior[][3]) {
-    cout << "Running test case: " << inputFile << endl;
-
-    int read = readFile(inputFile, dragons, dragonDamages, N);
-    int teamsDamage[N];
-    fighterDamage(dragons, warrior, teamsDamage);
-
-    cout << endl << "---------------------------------------" << endl;
-}
-
-void runTestcase51() {
-    const int W = 5;
-    string warrior[W][3];
-    warrior[0][0] = "Hiccup";
-    warrior[0][1] = "9";         
-    warrior[0][2] = "0";
-
-    warrior[1][0] = "Astrid";
-    warrior[1][1] = "8";
-    warrior[1][2] = "1";
-
-    warrior[2][0] = "Snotlout";
-    warrior[2][1] = "7";         
-    warrior[2][2] = "2";
-
-    warrior[3][0] = "Fishlegs";
-    warrior[3][1] = "4";
-    warrior[3][2] = "3";
-
-    warrior[4][0] = "Ruff and Tuff";
-    warrior[4][1] = "6";         
-    warrior[4][2] = "4";
-    runSingleTestcase51("testcase/test-46/test001.txt", dragons, warrior);
-}
-
-//Nhiệm vụ 5.2.1
-void runSingleTestcase521(const string& inputFile, Dragon dragons[], int map[10][10], int expectX, int expectY) {
-    cout << "Running test case: " << inputFile << endl;
-    int heritageX;
-    int heritageY;
-
-    int read = readFile(inputFile, dragons, dragonDamages, N);
-    findHeritageLocation(map, heritageX, heritageY);
-
-    cout << "X: " << heritageX << " Y: " << heritageY << endl;
-    if(heritageX == expectX && heritageY == expectY) {
-        cout << "✅ Passed";
-    } else {
-        cout << " ❌ Failed (Expected: " << "X: " << expectX <<" Y: " << expectY << ")";
-    }
-
-    cout << endl << "---------------------------------------" << endl;
-}
-
-void runTestcase521() {
-    int map1[10][10] = {
-        {3,  8,  4,  6,  7,  1,  2,  5,  9, 10},
-        {6,  7,  5,  3,  4,  2,  9,  8,  1, 11},
-        {9,  6,  3,  5,  2, 10, 7,  4,  8, 12},
-        {8,  5,  6,  7,  3, 11, 10, 9, 2, 13},
-        {7,  4,  9,  8,  1, 12, 11, 10, 3, 14},
-        {51, 52,  53,  54,  50, 55, 56, 57, 58, 59},
-        {11, 2,  1, 10, 6, 14, 13, 12, 5, 16},
-        {12, 1, 10, 11, 7, 15, 14, 13, 6, 17},
-        {13, 0, 11, 12, 8, 16, 15, 14, 7, 18},
-        {14, 9, 12, 13, 9, 17, 16, 15, 8, 19}
-    };
-    runSingleTestcase521("testcase/test-47/test001.txt", dragons, map1, 5, 4);
-
-    int map2[10][10] = {
-        {13,  18,  14,  16,  15,  14,  13,  12, 11, 10},
-        {6,  7,  5,  3,  4,  2,  9,  8,  1, 1},
-        {9,  6,  3,  5,  2, 10, 7,  4,  8, 2},
-        {8,  5,  6,  7,  3, 11, 10, 9, 2, 3},
-        {7,  4,  9,  8,  1, 12, 11, 10, 3, 4},
-        {4, 5,  6,  7,  8, 9, 10, 11, 12, 3},
-        {11, 2,  1, 10, 6, 14, 13, 12, 5, 6},
-        {12, 1, 10, 11, 7, 15, 14, 13, 6, 7},
-        {13, 0, 11, 12, 8, 16, 15, 14, 7, 8},
-        {14, 9, 12, 13, 9, 17, 16, 15, 8, 9}
-    };
-    runSingleTestcase521("testcase/test-47/test001.txt", dragons, map2, 0, 9);
-
-    int map3[10][10] = {
-        { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 },
-        { 15, 25, 35, 45, 55, 65, 75, 85, 95, 105 },
-        { 12, 22, 32, 42, 52, 62, 72, 82, 92, 175 },
-        { 118, 128, 138, 50, 58, 68, 78, 88, 98, 108 },
-        { 14, 24, 34, 44, 54, 64, 74, 84, 94, 104 },
-        { 19, 29, 39, 49, 59, 69, 79, 89, 99, 109 },
-        { 11, 21, 31, 41, 51, 61, 71, 81, 91, 101 },
-        { 16, 26, 36, 46, 56, 66, 76, 186, 96, 106 },
-        { 17, 27, 37, 47, 57, 67, 196, 87, 90, 107 },
-        { 13, 23, 33, 43, 53, 63, 73, 153, 93, 170 }
-    };
-    runSingleTestcase521("testcase/test-47/test001.txt", dragons, map3, 3, 3);
-}
-
-// Nhiệm vụ 5.2.2
-void runSingleTestcase522(const string& inputFile, Dragon dragons[], int map[10][10], int expectX, int expectY) {
-    cout << "Running test case: " << inputFile << endl;
-    int keyX;
-    int keyY;
-
-    int read = readFile(inputFile, dragons, dragonDamages, N);
-    findKeyLocation(map, keyX, keyY);
-
-    cout << "X: " << keyX << " Y: " << keyY << endl;
-    if(keyX == expectX && keyY == expectY) {
-        cout << "✅ Passed";
-    } else {
-        cout << " ❌ Failed (Expected: " << "X: " << expectX <<" Y: " << expectY << ")";
-    }
-
-    cout << endl << "---------------------------------------" << endl;
-}
-
-void runTestcase522() {
-    int map1[10][10] = {
-        {3,  8,  4,  6,  7,  1,  2,  5,  9, 10},
-        {6,  7,  5,  3,  4,  2,  9,  8,  1, 11},
-        {9,  6,  3,  5,  2, 10, 7,  4,  8, 12},
-        {8,  5,  6,  7,  3, 11, 10, 9, 2, 13},
-        {7,  4,  9,  8,  1, 12, 11, 10, 3, 14},
-        {51, 52,  53,  54,  50, 55, 56, 57, 58, 59},
-        {11, 2,  1, 10, 6, 14, 13, 12, 5, 16},
-        {12, 1, 10, 11, 7, 15, 14, 13, 6, 17},
-        {13, 0, 11, 12, 8, 16, 15, 14, 7, 18},
-        {14, 9, 12, 13, 9, 17, 16, 15, 8, 19}
-    };
-    runSingleTestcase522("testcase/test-48/test001.txt", dragons, map1, 6, 6);
-
-    int map2[10][10] = {
-        {13, 18,  14, 16, 15, 14, 13, 12, 11, 10},
-        {6,  7,  5,  3,  4,  2,  9,  8,  1, 1},
-        {9,  6,  3,  5,  2, 10, 7,  4,  8, 2},
-        {8,  5,  6,  7,  3, 11, 10, 9, 2, 3},
-        {7,  4,  9,  8,  1, 12, 11, 10, 3, 4},
-        {4, 5,  6,  7,  8, 9, 10, 11, 12, 3},
-        {11, 2,  1, 10, 6, 14, 13, 12, 5, 6},
-        {12, 1, 10, 11, 7, 50, 50, 50, 6, 7},
-        {13, 0, 11, 12, 8, 50, 15, 50, 7, 8},
-        {14, 9, 12, 13, 9, 50, 50, 50, 8, 9}
-    };
-    runSingleTestcase522("testcase/test-48/test001.txt", dragons, map2, 8, 6);
-
-    int map3[10][10] = {
-        { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 },
-        { 15, 25, 35, 45, 55, 65, 75, 85, 95, 105 },
-        { 12, 22, 32, 42, 52, 62, 72, 82, 92, 175 },
-        { 118, 128, 138, 50, 58, 68, 78, 88, 98, 108 },
-        { 14, 24, 34, 44, 54, 64, 74, 84, 94, 104 },
-        { 19, 29, 39, 49, 59, 69, 79, 89, 99, 109 },
-        { 11, 21, 31, 41, 51, 61, 71, 81, 91, 101 },
-        { 16, 26, 36, 46, 56, 66, 76, 186, 96, 106 },
-        { 17, 27, 37, 47, 57, 67, 196, 87, 90, 107 },
-        { 13, 23, 33, 43, 53, 63, 73, 153, 93, 170 }
-    };
-    runSingleTestcase522("testcase/test-48/test001.txt", dragons, map3, 8, 8);
-}
-
-// Nhiệm vụ 5.2.3
-void runSingleTestcase523(const string& inputFile, int map[10][10], int warriorDamage, int HP) {
-    cout << "Running test case: " << inputFile << endl;
-    totalTime(map, warriorDamage, HP);
-
-    cout << endl << "---------------------------------------" << endl;
-}
-
-void runTestcase523() {
-    int map[10][10] = {
-        { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 },
-        { 15, 25, 35, 45, 55, 65, 75, 85, 95, 105 },
-        { 12, 22, 32, 42, 52, 62, 72, 82, 92, 175 },
-        { 118, 128, 138, 50, 58, 68, 78, 88, 98, 108 },
-        { 14, 24, 34, 44, 54, 64, 74, 84, 94, 104 },
-        { 19, 29, 39, 49, 59, 69, 79, 89, 99, 109 },
-        { 11, 21, 31, 41, 51, 61, 71, 81, 91, 101 },
-        { 16, 26, 36, 46, 56, 66, 76, 186, 96, 106 },
-        { 17, 27, 37, 47, 57, 67, 196, 87, 90, 107 },
-        { 13, 23, 33, 43, 53, 63, 73, 153, 93, 170 }
-    };
-    runSingleTestcase523("testcase/test-49/test001.txt", map, 150, 20);
-}
-
-// void runSpecificTestcase(int index, int expectedResult) {
-//     string inputFile = "testcase/test0" + to_string(index) + ".txt";
-//     runSingleTestcase(inputFile, expectedResult);
-// }
 
 int main() {
-    // nhiệm vụ 1
-    // runTestcase1();
-
-    // nhiệm vụ 2
-    // runTestcase2();
-
-    // Nhiệm vụ 3.1
-    // runTestcase31();
-
-    // Nhiệm vụ 3.2
-    // runTestcase32();
-
-    // Nhiệm vụ 4
-    // runTestcase4();
-
-    // Nhiệm vụ 5.1
-    // runTestcase51();
-
-    // Nhiệm vụ 5.2.1
-    // runTestcase521();
-
-    // Nhiệm vụ 5.2.2
-    // runTestcase522();
-
-    // Nhiệm vụ 5.2.3
-    // runTestcase523();
-
-    // runSpecificTestcase(1, 1);
+    testMission1();
+    testMission2();
+    testMission3();
+    testMission4();
+    testMission5();
 
     return 0;
 }
+
