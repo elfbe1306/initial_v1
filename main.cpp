@@ -211,6 +211,71 @@ void testMission3() {
 void testMission4() {
     cout << "Mission 4: " << endl;
 
+    runTestcase(
+        "Testcase 1",
+        []() {
+            readFile("testcases/mission4/tnc_tc_01_input.txt", dragons, dragonDamages, N);
+            string fighters_1[5][3] = {
+                {"Hiccup", "8", "0"},
+                {"Astrid", "7", "1"},
+                {"Snotlout", "9", "2"},
+                {"Fishlegs", "6", "3"},
+                {"Ruff&Tuff", "7", "4"},
+            };
+
+            int map_1[10][10] = {
+                {11, 20, 30, 40, 50, 60, 70, 80, 90, 100},
+                {15, 25, 35, 45, 55, 65, 75, 85, 1, 105},
+                {12, 22, 32, 42, 52, 62, 72, 82, 10, 175},
+                {118, 128, 138, 50, 58, 68, 78, 88, 98, 108},
+                {14, 24, 34, 44, 54, 64, 74, 84, 94, 104},
+                {19, 29, 39, 49, 59, 33, 79, 89, 99, 109},
+                {11, 21, 14, 41, 51, 61, 71, 81, 91, 101},
+                {16, 26, 36, 46, 56, 66, 76, 186, 96, 106},
+                {17, 27, 37, 47, 57, 67, 196, 87, 90, 107},
+                {13, 23, 33, 43, 53, 63, 73, 153, 93, 22}};
+
+            computeChallengeTime(fighters_1, map_1);
+        },
+        "Warrior        Total time (secs)\n"
+        "Hiccup         500\n"
+        "Snotlout       500\n"
+        "Fishlegs       500\n"
+        "Ruff&Tuff      500\n"
+    );
+
+    runTestcase(
+        "Testcase 2",
+        []() {
+            readFile("testcases/mission4/tnc_tc_02_input.txt", dragons, dragonDamages, N);
+            string fighters_2[5][3] = {
+                {"Valka", "8", "1"},
+                {"Eret", "5", "2"},
+                {"Stoick", "10", "3"},
+                {"Grimmel", "7", "0"},
+                {"Spitelout", "6", "4"},
+            };
+
+            int map_2[10][10] = {
+                {5, 10, 15, 20, 25, 30, 35, 40, 45, 50},
+                {2, 12, 22, 32, 42, 52, 62, 72, 82, 92},
+                {3, 13, 23, 33, 43, 53, 63, 73, 83, 93},
+                {4, 14, 24, 34, 44, 54, 64, 74, 84, 94},
+                {6, 16, 26, 36, 46, 56, 66, 76, 86, 96},
+                {7, 17, 27, 37, 47, 57, 67, 77, 87, 97},
+                {8, 18, 28, 38, 48, 58, 68, 78, 88, 98},
+                {9, 19, 29, 39, 49, 59, 69, 79, 89, 99},
+                {1, 11, 21, 31, 41, 51, 61, 71, 81, 91},
+                {0, 100, 200, 300, 400, 500, 600, 700, 800, 900}};
+
+            computeChallengeTime(fighters_2, map_2);
+        },
+        "Warrior        Total time (secs)\n"
+        "Eret           515\n"
+        "Stoick         530\n"
+        "Spitelout      535\n"
+        "Grimmel        540\n"
+    );
 
     cout << "----------" << endl;
 }
@@ -269,11 +334,11 @@ void testMission5() {
 }
 
 int main() {
-    testMission1();
-    testMission2();
-    testMission3();
+    // testMission1();
+    // testMission2();
+    // testMission3();
     testMission4();
-    testMission5();
+    // testMission5();
 
     return 0;
 }

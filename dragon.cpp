@@ -493,6 +493,7 @@ void computeChallengeTime(string warriors[][3], int map[10][10])
                         if(row == 9 && column == 0) {
                             int returnTime = abs((row + column * 2) - 1) * 5;
                             warriorTime[warriorId] += returnTime;
+                            continue;
                         }
                         int goTime = (row + column * 2) * 5;
                         int returnTime = abs((row + column * 2) - 1) * 5;
@@ -520,7 +521,7 @@ void computeChallengeTime(string warriors[][3], int map[10][10])
     }
 
     cout << left << setw(15) << "Warrior" << "Total time (secs)" << endl;
-    for(int i = 0; i < 5; i++) {
+    for(int i = 0; i < 4; i++) {
         cout << left << setw(15) << warriors[i][0] << warriorTime[i] << endl;
     }
 }
