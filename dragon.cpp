@@ -537,7 +537,8 @@ void computeChallengeTime(string warriors[][3], int map[10][10])
     }
 
     cout << left << setw(15) << "Warrior" << "Total time (secs)" << endl;
-    for (int i = 0; i < N - 1; i++) {
+    int count = (N >=4) ? 4: N;
+    for (int i = 0; i < count; i++) {
         int idx = warriorIndexes[i];
         int id = stoi(warriors[idx][2]);
         cout << left << setw(15) << warriors[idx][0] << warriorTime[id] << endl;
