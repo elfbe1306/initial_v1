@@ -284,9 +284,33 @@ void testMission51() {
     cout << "Mission 5-1: " << endl;
 
     runTestcase(
+        "Testcase 1",
+        []() {
+            cout << readFile("testcases/mission51/tnc_tc_01_input.txt", dragons, dragonDamages, N) << endl;
+            string fighters_1[5][3] = {
+                {"Hiccup", "8", "0"},
+                {"Astrid", "7", "1"},
+                {"Snotlout", "9", "2"},
+                {"Fishlegs", "6", "3"},
+                {"Ruff&Tuff", "7", "4"},
+            };
+
+          int teamDamage_1[5];
+            fighterDamage(dragons, fighters_1, teamDamage_1);
+
+        },
+        "1\n"
+        "Hiccup-Toothless: damage = 340\n"
+        "Astrid-Stormfly: damage = 195\n"
+        "Snotlout-Hookfang: damage = 495\n"
+        "Fishlegs-Meatlug: damage = 100\n"
+        "Ruff&Tuff-Barf and Belch: damage = 415\n"
+    );
+
+    runTestcase(
         "Testcase 2",
         []() {
-            readFile("testcases/mission51/tnc_tc_02_input.txt", dragons, dragonDamages, N);
+            cout << readFile("testcases/mission51/tnc_tc_02_input.txt", dragons, dragonDamages, N) << endl;
             string fighters_2[5][3] = {
                 {"Valka", "8", "1"},
                 {"Eret", "5", "2"},
@@ -368,8 +392,8 @@ int main() {
     // testMission1();
     // testMission2();
     // testMission3();
-    // testMission4();
-    testMission51();
+    testMission4();
+    // testMission51();
     // testMission52();
 
     return 0;

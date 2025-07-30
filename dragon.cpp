@@ -456,6 +456,31 @@ void buddyMatching(Dragon dragons[], string warriors[][3])
 }
 
 // Task 4
+void computeTime(int map[10][10], int warriorTime[], int warriorId, int row, int col, bool& isPickedItem) {
+    int tileId = (row + col) % 5;
+
+    if(isPickedItem) {
+        if(!(row == 9 && col == 0)) {
+            int goTime = (1 + (row + col * 2)) * 5;
+            warriorTime[warriorId] += goTime;
+        }
+        isPickedItem = false;
+    }
+
+    if(tileId == warriorId) {
+        warriorTime[warriorId] += 5;
+        return;
+    }
+
+    if(warriorId == map[row][col]) {
+        isPickedItem = true;
+        int returnTime = abs((row + col * 2) - 1) * 5;
+        warriorTime[warriorId] += returnTime + 5;
+    } else {
+        warriorTime[warriorId] += 5;
+    }
+}
+
 void computeChallengeTime(string warriors[][3], int map[10][10])
 {
     // TODO: Implement this function
@@ -464,65 +489,58 @@ void computeChallengeTime(string warriors[][3], int map[10][10])
     for(int i = 0; i < N; i++) {
         int warriorId = stoi(warriors[i][2]);
 
-        for(int row = 0; row < 10; row++) {
-            if(row % 2 == 0) {
-                for(int column = 0; column < 10; column++) {
-                    int tileID = (row + column) % 5;
-                    if(tileID == warriorId) {
-                        warriorTime[warriorId] += 5;
-                        continue;
-                    }
-                    
-                    if(map[row][column] == warriorId) {
-                        int goTime = (1 + (row + column * 2)) * 5;
-                        int returnTime = abs((row + column * 2) - 1) * 5;
-                        warriorTime[warriorId] += (goTime + returnTime);
-                    } else {
-                        warriorTime[warriorId] += 5;
-                    }
+        bool isCompleted = false;
+        bool isLeftToRight = true;
+        bool isPickedItem = false;
+        int row = 0, col = 0;
+        while(!isCompleted) {
+            isLeftToRight = (row % 2 == 0);
+
+            computeTime(map, warriorTime, warriorId, row, col, isPickedItem);
+
+            if(col == 0 && row == 9) {
+                isCompleted = true;
+                continue;
+            }
+
+            if(isLeftToRight) {
+                if(col < 9) {
+                    col++;
+                } else {
+                    row++;
+                    col = 9;
                 }
             } else {
-                for(int column = 9; column >= 0; column--) {
-                    int tileID = (row + column) % 5;
-                    if(tileID == warriorId) {
-                        warriorTime[warriorId] += 5;
-                        continue;
-                    }
-
-                    if(map[row][column] == warriorId) {
-                        if(row == 9 && column == 0) {
-                            int returnTime = abs((row + column * 2) - 1) * 5;
-                            warriorTime[warriorId] += returnTime;
-                            continue;
-                        }
-                        int goTime = (1 + (row + column * 2)) * 5;
-                        int returnTime = abs((row + column * 2) - 1) * 5;
-                        warriorTime[warriorId] += (goTime + returnTime);
-                    } else {
-                        warriorTime[warriorId] += 5;
-                    }
+                if(col > 0) {
+                    col--;
+                } else {
+                    row++;
+                    col = 0;
                 }
             }
         }
     }
-   
+
+    int warriorIndexes[5];
+    for (int i = 0; i < N; i++) {
+        warriorIndexes[i] = i;
+    }
+
     for (int i = 0; i < N - 1; i++) {
         for (int j = i + 1; j < N; j++) {
-            if (warriorTime[i] > warriorTime[j]) {
-                int tempTime = warriorTime[i];
-                warriorTime[i] = warriorTime[j];
-                warriorTime[j] = tempTime;
-
-                string tempName = warriors[i][0];
-                warriors[i][0] = warriors[j][0];
-                warriors[j][0] = tempName;
+            int id_i = stoi(warriors[warriorIndexes[i]][2]);
+            int id_j = stoi(warriors[warriorIndexes[j]][2]);
+            if (warriorTime[id_i] > warriorTime[id_j]) {
+                swap(warriorIndexes[i], warriorIndexes[j]);
             }
         }
     }
 
     cout << left << setw(15) << "Warrior" << "Total time (secs)" << endl;
-    for(int i = 0; i < 4; i++) {
-        cout << left << setw(15) << warriors[i][0] << warriorTime[i] << endl;
+    for (int i = 0; i < N - 1; i++) {
+        int idx = warriorIndexes[i];
+        int id = stoi(warriors[idx][2]);
+        cout << left << setw(15) << warriors[idx][0] << warriorTime[id] << endl;
     }
 }
 
@@ -531,6 +549,7 @@ void fighterDamage(Dragon dragons[], string warriors[][3], int teamsDamage[])
 {
     // TODO: Implement this function
     for(int i= 0; i < N; i++) {
+        // cout << dragons[i].dragonTypes <<  " " << dragonDamages[dragons[i].dragonTypes - 1] << " " << dragons[i].ammoCounts << " " << stoi(warriors[i][1]) << endl;
         int damage = (dragonDamages[dragons[i].dragonTypes - 1] * dragons[i].ammoCounts) + (stoi(warriors[i][1]) * 5);
         teamsDamage[i] = damage;
         cout << warriors[i][0] <<"-"<< dragons[i].dragonNames << ": damage = " << damage << endl;
