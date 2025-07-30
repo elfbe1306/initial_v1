@@ -474,7 +474,7 @@ void computeChallengeTime(string warriors[][3], int map[10][10])
                     }
                     
                     if(map[row][column] == warriorId) {
-                        int goTime = (row + column * 2) * 5;
+                        int goTime = (1 + (row + column * 2)) * 5;
                         int returnTime = abs((row + column * 2) - 1) * 5;
                         warriorTime[warriorId] += (goTime + returnTime);
                     } else {
@@ -495,7 +495,7 @@ void computeChallengeTime(string warriors[][3], int map[10][10])
                             warriorTime[warriorId] += returnTime;
                             continue;
                         }
-                        int goTime = (row + column * 2) * 5;
+                        int goTime = (1 + (row + column * 2)) * 5;
                         int returnTime = abs((row + column * 2) - 1) * 5;
                         warriorTime[warriorId] += (goTime + returnTime);
                     } else {
@@ -678,7 +678,6 @@ void processCell(int map[10][10], string& paths, int& row, int& col, int& warrio
                 if(row == 0) {row = 0; col = 0;}
                 row -= 1;
 
-                paths += " ";
                 paths += "(" + to_string(row) + "," + to_string(col) + ")";
             }
             warriorTime += 10;
@@ -690,7 +689,6 @@ void processCell(int map[10][10], string& paths, int& row, int& col, int& warrio
                 row = col;
                 col = temp;
 
-                paths += " ";
                 paths += "(" + to_string(row) + "," + to_string(col) + ")";
             }
             warriorTime += 10;
@@ -731,7 +729,6 @@ void totalTime(int map[10][10], int warriorDamage, int HP) {
     string paths = "";
 
     while(HP > 0) {
-        if (!paths.empty()) paths += " ";
         paths += "(" + to_string(row) + "," + to_string(col) + ")";
 
         processCell(map, paths, row, col, warriorTime, warriorDamage, HP, isKeyFound, isHeritagePass, keyX, keyY, heritageX, heritageY, dragonX, dragonY, mountainX, mountainY, isGameComplete);
