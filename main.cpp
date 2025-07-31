@@ -389,12 +389,12 @@ void testMission52() {
 }
 
 int main() {
-    // testMission1();
-    // testMission2();
-    // testMission3();
+    testMission1();
+    testMission2();
+    testMission3();
     testMission4();
-    // testMission51();
-    // testMission52();
+    testMission51();
+    testMission52();
 
     return 0;
 }

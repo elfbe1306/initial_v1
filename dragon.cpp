@@ -701,6 +701,7 @@ void processCell(int map[10][10], string& paths, int& row, int& col, int& warrio
                 paths += "(" + to_string(row) + "," + to_string(col) + ")";
             }
             warriorTime += 10;
+            map[row][col] = 0;
         } else if(row == mountainX && col == mountainY) {
             if(warriorDamage < opponentDamage) {
                 HP -= 2;
@@ -712,6 +713,7 @@ void processCell(int map[10][10], string& paths, int& row, int& col, int& warrio
                 paths += "(" + to_string(row) + "," + to_string(col) + ")";
             }
             warriorTime += 10;
+            map[row][col] = 0;
         } else {
             if(warriorDamage < opponentDamage) {
                 HP -= 1;
