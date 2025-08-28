@@ -131,6 +131,16 @@ void testMission2() {
         "None\n"
     );
 
+    runTestcase(
+        "Testcase 3",
+        []() {
+            cout << readFile("testcases/mission2/tnc_tc_03_input.txt", dragons, dragonDamages, N) << endl;
+            cout << findKthStrongestDragon(dragons, dragonDamages, N, 6) << endl;
+        },
+        "1\n"
+        "Barf and Belch\n"
+    );
+
     cout << "----------" << endl;
 }
 
